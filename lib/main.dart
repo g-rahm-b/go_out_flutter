@@ -1,4 +1,3 @@
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_out_v2/models/custom_user.dart';
@@ -17,10 +16,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamProvider<CustomUser>.value(
       value: AuthService().user,
+      initialData: null,
       child: MaterialApp(
         home: Wrapper(),
       ),
     );
   }
 }
-

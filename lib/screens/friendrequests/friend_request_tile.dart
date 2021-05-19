@@ -16,18 +16,19 @@ class FriendRequestTile extends StatelessWidget {
         elevation: 10.0,
         child: ListTile(
           leading: CircleAvatar(
-            radius: 25,
+            radius: 40,
             backgroundImage: AssetImage('assets/default_user_image.png'),
           ),
           title: Text(user.name),
           subtitle: Text('from ${user.city}, ${user.state} in ${user.country}'),
-             onTap: (){
+          onTap: () {
             //navigate to the profile page here
             Navigator.push(
               context,
               //ToDo - Send to ANOTHER user's profile page
               MaterialPageRoute(
-                builder: (context) => OtherUsersProfilePage(user: user),),
+                builder: (context) => OtherUsersProfilePage(user: user),
+              ),
             );
           },
         ),

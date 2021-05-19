@@ -10,7 +10,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission/permission.dart';
 // import 'package:google_place/google_place.dart';
 
-
 class EventPlanning extends StatefulWidget {
   // final LocationData location;
   // EventPlanning({this.location});
@@ -22,10 +21,24 @@ class EventPlanning extends StatefulWidget {
 class EventPlanningMapState extends State<EventPlanning> {
   //Google Places
 
-
   //Everything needed for obtaining permissions.
-  bool a0 = false, a1 = false, a2 = false, a3 = false, a4 = true, a5 = false, a6 = false, a7 = false, a8 = false, a9 = false;
-  bool i0 = false, i1 = false, i2 = false, i3 = false, i4 = false, i5 = false, i6 = false;
+  bool a0 = false,
+      a1 = false,
+      a2 = false,
+      a3 = false,
+      a4 = true,
+      a5 = false,
+      a6 = false,
+      a7 = false,
+      a8 = false,
+      a9 = false;
+  bool i0 = false,
+      i1 = false,
+      i2 = false,
+      i3 = false,
+      i4 = false,
+      i5 = false,
+      i6 = false;
   int radioValue = 0;
   PermissionName permissionName = PermissionName.Internet;
   String message = '';
@@ -42,39 +55,25 @@ class EventPlanningMapState extends State<EventPlanning> {
   LocationData _locationData;
   LatLng _markerLocation;
 
-
   //Ids
   int _circleIdCounter = 1;
-
-  //Type Controllers
-  bool _isCircle = false;
 
   @override
   initState() {
     super.initState();
-
-
-    print('==initState== Going into Async Function');
     _getLocationData();
-    print('==initState== Requesting permissions');
     requestPermissions();
-    print('==initState== Setting Marker Icon');
     _setMarkerIcon();
-
   }
 
   Future<void> _getLocationData() async {
-    try{
-      print('Fetching Location info');
+    try {
       _locationData = await location.getLocation();
-      print('**User Device Location Info**');
-      print(_locationData);
       return location.getLocation();
-    }catch(e){
+    } catch (e) {
       print(e);
       return null;
     }
-
   }
 
   requestPermissions() async {
@@ -89,7 +88,6 @@ class EventPlanningMapState extends State<EventPlanning> {
     if (a7) permissionNames.add(PermissionName.SMS);
     if (a8) permissionNames.add(PermissionName.Storage);
     if (a9) permissionNames.add(PermissionName.State);
-
     if (i0) permissionNames.add(PermissionName.Internet);
     if (i1) permissionNames.add(PermissionName.Calendar);
     if (i2) permissionNames.add(PermissionName.Camera);
@@ -100,64 +98,57 @@ class EventPlanningMapState extends State<EventPlanning> {
     message = '';
     var permissions = await Permission.requestPermissions(permissionNames);
     permissions.forEach((permission) {
-      message += '${permission.permissionName}: ${permission.permissionStatus}\n';
+      message +=
+          '${permission.permissionName}: ${permission.permissionStatus}\n';
     });
     setState(() {});
   }
 
-  void _onMapCreated(GoogleMapController controller)
-  {
-    print('=========MAP CREATED=============');
+  void _onMapCreated(GoogleMapController controller) {
     //set the map style
     _setMapStyle();
     _controller = controller;
-    print('Creating marker and initial circle');
     final String circleIdVal = 'circle_id_$_circleIdCounter';
     _circleIdCounter++;
-    _circles.add(
-        Circle(
-            circleId: CircleId(circleIdVal),
-            center: LatLng(_locationData.latitude, _locationData.longitude),
-            radius: radius,
-            fillColor: Colors.redAccent.withOpacity(0.5),
-            strokeWidth: 3,
-            strokeColor: Colors.redAccent));
-    _markers.add(
-        Marker(
-            markerId: MarkerId('0'),
-            position: LatLng(_locationData.latitude, _locationData.longitude),
-            icon: BitmapDescriptor.defaultMarker,
-            draggable: true,
-            onDragEnd: ((newPosition) {
-              setState(() {
-                  print('set state');
-                  _markerLocation = newPosition;
-                  _setCircles(newPosition);
-              });
-            }),
-            infoWindow: InfoWindow(
-                title: "Event Epicenter",
-                snippet: 'Center of your Search Radius. Drag and drop!')
-        )
-    );
+    _circles.add(Circle(
+        circleId: CircleId(circleIdVal),
+        center: LatLng(_locationData.latitude, _locationData.longitude),
+        radius: radius,
+        fillColor: Colors.redAccent.withOpacity(0.5),
+        strokeWidth: 3,
+        strokeColor: Colors.redAccent));
+    _markers.add(Marker(
+        markerId: MarkerId('0'),
+        position: LatLng(_locationData.latitude, _locationData.longitude),
+        icon: BitmapDescriptor.defaultMarker,
+        draggable: true,
+        onDragEnd: ((newPosition) {
+          setState(() {
+            print('set state');
+            _markerLocation = newPosition;
+            _setCircles(newPosition);
+          });
+        }),
+        infoWindow: InfoWindow(
+            title: "Event Epicenter",
+            snippet: 'Center of your Search Radius. Drag and drop!')));
+    _markerLocation = LatLng(_locationData.latitude, _locationData.longitude);
     setState(() {
       print('set State 2');
     });
-
-
   }
 
   _setMarkerIcon() async {
     print('Setting the marker Icon');
-    _markerIcon =
-    await BitmapDescriptor.fromAssetImage(ImageConfiguration(), 'assets/coffee_icon.png');
+    _markerIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(), 'assets/coffee_icon.png');
   }
 
   //Setting the styling of the map based on a saved Json file
   void _setMapStyle() async {
-    String style = await DefaultAssetBundle.of(context).loadString('assets/map_style.json');
+    String style = await DefaultAssetBundle.of(context)
+        .loadString('assets/map_style.json');
     _controller.setMapStyle(style);
-
   }
 
   //Sets the circles as points to the map
@@ -184,93 +175,81 @@ class EventPlanningMapState extends State<EventPlanning> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: _getLocationData(),
-      builder: (context, AsyncSnapshot snapshot){
-        if(snapshot.data == null){
+      builder: (context, AsyncSnapshot snapshot) {
+        if (snapshot.data == null) {
           return Loading();
         }
 
         //ToDO: Build a stream that listens to changes in _Circles, to update the radius
         //ToDo: Also, add a stream that will listen to the radius info that you'll eventually have.
-      return Scaffold(
-        body: Stack(
-          children: <Widget>[
-
-            GoogleMap(
-              mapType: MapType.normal,
-              initialCameraPosition: CameraPosition(
-                target: LatLng(_locationData.latitude, _locationData.longitude),
-                zoom: 14
+        return Scaffold(
+          body: Stack(
+            children: <Widget>[
+              GoogleMap(
+                mapType: MapType.normal,
+                initialCameraPosition: CameraPosition(
+                    target:
+                        LatLng(_locationData.latitude, _locationData.longitude),
+                    zoom: 14),
+                myLocationEnabled: true,
+                myLocationButtonEnabled: true,
+                buildingsEnabled: true,
+                liteModeEnabled: false,
+                circles: _circles,
+                markers: _markers,
+                onMapCreated: _onMapCreated,
               ),
-              myLocationEnabled: true,
-              myLocationButtonEnabled: true,
-              buildingsEnabled: true,
-              liteModeEnabled: false,
-              circles: _circles,
-              markers: _markers,
-              onMapCreated: _onMapCreated,
-            ),
-            SizedBox(
-
-              height: 120,
-              child: Slider(
-                  value: radius ?? 250,
-                  activeColor: Colors.red,
-                  inactiveColor: Colors.blue,
-                  min: 100.0,
-                  max: 2500.0,
-                  divisions: 60,
-                  onChanged: (val) =>    setState(() {
-                    print(_markerLocation);
-                    radius = val;
-                    _setCircles(LatLng(_markerLocation.latitude, _markerLocation.longitude));
-                  })
+              SizedBox(
+                height: 120,
+                child: Slider(
+                    value: radius ?? 250,
+                    activeColor: Colors.red,
+                    inactiveColor: Colors.blue,
+                    min: 100.0,
+                    max: 2500.0,
+                    divisions: 60,
+                    onChanged: (val) => setState(() {
+                          print(_markerLocation);
+                          radius = val;
+                          _setCircles(LatLng(_markerLocation.latitude,
+                              _markerLocation.longitude));
+                        })),
               ),
-            ),
-            Container(
-              alignment: Alignment.topLeft,
-              padding: EdgeInsets.fromLTRB(20, 30, 0, 0),
-              child: Text(
-                "Adjust slider to change search radius.",
-                style: TextStyle(
-                  color: Colors.white
-                )
+              Container(
+                alignment: Alignment.topLeft,
+                padding: EdgeInsets.fromLTRB(20, 30, 0, 0),
+                child: Text("Adjust slider to change search radius.",
+                    style: TextStyle(color: Colors.white)),
               ),
-            ),
-          ],
-        ),
-        floatingActionButton: Container(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 60),
-          child: Align(
-            alignment: Alignment.bottomCenter,
-
-            child: FloatingActionButton.extended(
-              onPressed: (){
-                print('');
-                print('********* Button Press *********');
-                Event newEvent = new Event();
-                print(_markerLocation.latitude);
-                print(_markerLocation.longitude);
-                newEvent.lat = _markerLocation.latitude;
-                print(newEvent.lat);
-                newEvent.lng = _markerLocation.longitude;
-                print(newEvent.lng);
-                newEvent.searchRadius = radius;
-                print(newEvent.searchRadius);
-                print(newEvent);
-                Navigator.push(
-                  context,
-                    MaterialPageRoute(builder: (context) => PlanEvent(newEvent: newEvent)));
-              },
-              label: Text('Plan your event!'),
-              icon: Icon(Icons.next_plan_outlined),
-
+            ],
+          ),
+          floatingActionButton: Container(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 60),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: FloatingActionButton.extended(
+                onPressed: () {
+                  print('');
+                  print('********* Button Press *********');
+                  Event newEvent = new Event(
+                      lat: _markerLocation.latitude,
+                      lng: _markerLocation.longitude,
+                      searchRadius: radius);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PlanEvent(newEvent: newEvent)));
+                },
+                label: Text('Plan your event!'),
+                icon: Icon(Icons.next_plan_outlined),
+              ),
             ),
           ),
-        ),
-      );
+        );
       },
     );
   }
+
   getPermissionsStatus() async {
     List<PermissionName> permissionNames = [];
     if (a0) permissionNames.add(PermissionName.Calendar);
@@ -291,20 +270,21 @@ class EventPlanningMapState extends State<EventPlanning> {
     if (i5) permissionNames.add(PermissionName.Location);
     if (i6) permissionNames.add(PermissionName.Storage);
     message = '';
-    List<Permissions> permissions = await Permission.getPermissionsStatus(permissionNames);
+    List<Permissions> permissions =
+        await Permission.getPermissionsStatus(permissionNames);
     permissions.forEach((permission) {
-      message += '${permission.permissionName}: ${permission.permissionStatus}\n';
+      message +=
+          '${permission.permissionName}: ${permission.permissionStatus}\n';
       print(message);
     });
-    setState(() {
-      message;
-    });
+    setState(() {});
   }
+
   getSinglePermissionStatus() async {
-    var permissionStatus = await Permission.getSinglePermissionStatus(permissionName);
+    var permissionStatus =
+        await Permission.getSinglePermissionStatus(permissionName);
     setState(() {
       message = permissionStatus.toString();
     });
   }
-
 }

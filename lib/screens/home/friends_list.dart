@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:go_out_v2/models/brew.dart';
 import 'package:go_out_v2/models/custom_user.dart';
 import 'package:go_out_v2/screens/friendrequests/friend_requests.dart';
+import 'package:go_out_v2/screens/friendrequests/friend_tile.dart';
 import 'package:go_out_v2/screens/friendrequests/sent_friend_requests_tile.dart';
 import 'package:go_out_v2/screens/friendsearch/friend_search.dart';
 import 'package:go_out_v2/services/database.dart';
 import 'package:go_out_v2/shared/loading.dart';
-import 'package:provider/provider.dart';
-import 'brew_tile.dart';
 
 class FriendsList extends StatefulWidget {
   @override
@@ -63,7 +61,7 @@ class _FriendsListState extends State<FriendsList> {
                               //Maybe do something here.
                             });
                           },
-                          child: SentFriendRequestTile(
+                          child: FriendTile(
                             //user: sentFriendRequests[index]
                             users: usersFriends,
                             index: index,

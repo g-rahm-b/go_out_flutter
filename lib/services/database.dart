@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:go_out_v2/models/brew.dart';
+import 'package:go_out_v2/models/user_feedback.dart';
 import 'package:go_out_v2/models/custom_user.dart';
 import 'package:go_out_v2/services/auth.dart';
 
@@ -9,18 +9,9 @@ class DatabaseService {
   DatabaseService({this.uid});
 
   //Collection Reference
-  final CollectionReference brewCollection =
-      FirebaseFirestore.instance.collection('brews');
+
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
-
-  Future updateUserData(String sugars, String name, int strength) async {
-    return await brewCollection.doc(uid).set({
-      'sugars': sugars,
-      'name': name,
-      'strength': strength,
-    });
-  }
 
   //Happens typically when a user registers.
   Future updateUserInfo(CustomUser updateUser) async {
@@ -39,12 +30,9 @@ class DatabaseService {
   }
 
   sendFriendRequest(CustomUser otherUser) async {
-    final CollectionReference users = FirebaseFirestore.instance.collection('users');
+    final CollectionReference users =
+        FirebaseFirestore.instance.collection('users');
     String currentUid = AuthService().fetchUid();
-    print('Other users name:');
-    print(otherUser.name);
-    print('Other users uid:');
-    print(otherUser.uid);
     await users
         .doc(otherUser.uid)
         .collection("receivedFriendRequests")
@@ -87,15 +75,14 @@ class DatabaseService {
           .where('userSearch', arrayContains: userQuery)
           .get();
       result.docs.forEach((res) {
-        print(res.data());
-        CustomUser user = new CustomUser();
-        user.country = res.data()['country'] ?? 'unknown country';
-        user.state = res.data()['state'] ?? 'unknown state';
-        user.city = res.data()['city'] ?? 'unknown city';
-        user.name = res.data()['name'] ?? 'unknown name';
-        user.uid = res.data()['uid'] ?? 'unknown uid';
-        user.imageUrl =
-            res.data()['imageUrl'] ?? 'assets/default_user_image.png';
+        CustomUser user = new CustomUser(
+            country: res.data()['country'] ?? 'unknown country',
+            state: res.data()['state'] ?? 'unknown state',
+            city: res.data()['city'] ?? 'unknown city',
+            name: res.data()['name'] ?? 'unknown name',
+            uid: res.data()['uid'] ?? 'unknown uid',
+            imageUrl:
+                res.data()['imageUrl'] ?? 'assets/default_user_image.png');
         usersFromQuery.add(user);
       });
 
@@ -111,7 +98,6 @@ class DatabaseService {
     try {
       String currentUid = AuthService().fetchUid();
       final fireStoreInstance = FirebaseFirestore.instance;
-      print('Grabbing all of the current users current friends');
       List<CustomUser> usersFriends = [];
       await _populateFriendUids(usersFriends, currentUid, fireStoreInstance);
       //Using this method I did originally, that will effectively just populate the UIDs with the actual user info
@@ -131,9 +117,7 @@ class DatabaseService {
         .collection('friends')
         .get();
     result.docs.forEach((element) {
-      CustomUser friend = new CustomUser();
-      friend.uid = element.id;
-      print('Adding in friend uid: ${element.id}');
+      CustomUser friend = new CustomUser(uid: element.id);
       usersFriends.add(friend);
     });
     return usersFriends;
@@ -172,9 +156,9 @@ class DatabaseService {
         .where('acceptStatus', isEqualTo: false)
         .get();
     result.docs.forEach((element) {
-      CustomUser newFriendRequest = new CustomUser();
-      newFriendRequest.friendRequestTimeStamp = element.get('created');
-      newFriendRequest.uid = element.id;
+      CustomUser newFriendRequest = new CustomUser(
+          friendRequestTimeStamp: element.get('created').toString(),
+          uid: element.id);
       friendRequestUserList.add(newFriendRequest);
     });
     return friendRequestUserList;
@@ -183,25 +167,15 @@ class DatabaseService {
   //This will actually populate the requests with the user information, so that we can populate some tiles.
   Future<List<CustomUser>> _populateFriendRequests(
       List<CustomUser> friendRequestUserList) async {
-    print('');
-    print('*** Populating ***');
-    final fireStoreInstance = FirebaseFirestore.instance;
-
+    final fireStoreInstance = FirebaseFirestore.instance.collection('users');
+    List<CustomUser> populatedList = [];
     for (CustomUser user in friendRequestUserList) {
-      var result =
-          await fireStoreInstance.collection('users').doc(user.uid).get();
-      print(result.data());
-      var doc = result.data();
-      user.country = doc['country'] ?? 'Unknown Country';
-      user.state = doc['state'] ?? 'Unknown state';
-      user.city = doc['city'] ?? 'Unknown city';
-      user.imageUrl = doc['imageUrl'] ?? 'assets/default_user_image.png';
-      user.name = doc['name'] ?? 'name';
+      var result = await fireStoreInstance.doc(user.uid).get();
+      print('Retrieved user of ID: ${user.uid}');
+      CustomUser populateUser = CustomUser.fromFirestore(result);
+      populatedList.add(populateUser);
     }
-
-    print('*** Done Populating ***');
-    print('');
-    return friendRequestUserList;
+    return populatedList;
   }
 
   Future<List<CustomUser>> userSentFriendRequests() async {
@@ -209,7 +183,7 @@ class DatabaseService {
       String currentUid = AuthService().fetchUid();
       //Set up an empty list to populate.
       List<CustomUser> friendRequestUserList = [];
-      //First, we will get the current user's pending friend requests.
+      //First, we will get the current user's pending friend requests(sent to other users).
       friendRequestUserList =
           await _fetchSentFriendRequests(friendRequestUserList, currentUid);
 
@@ -217,10 +191,6 @@ class DatabaseService {
       //We can use the same function as before, as the this function doesn't care about sent or received.
       friendRequestUserList =
           await _populateFriendRequests(friendRequestUserList);
-
-      friendRequestUserList.forEach((element) {
-        print(element.name);
-      });
 
       return friendRequestUserList;
     }
@@ -241,9 +211,9 @@ class DatabaseService {
         .where('sentStatus', isEqualTo: true)
         .get();
     result.docs.forEach((element) {
-      CustomUser sentFriendRequest = new CustomUser();
-      sentFriendRequest.friendRequestTimeStamp = element.get('created');
-      sentFriendRequest.uid = element.id;
+      CustomUser sentFriendRequest = new CustomUser(
+          friendRequestTimeStamp: element.get('created').toString(),
+          uid: element.id);
       friendRequestUserList.add(sentFriendRequest);
     });
     return friendRequestUserList;
@@ -288,7 +258,7 @@ class DatabaseService {
         .delete();
   }
 
-  Future<void> removeFriend (CustomUser otherUser) async {
+  Future<void> removeFriend(CustomUser otherUser) async {
     String currentUserId = AuthService().fetchUid();
     final fireStoreInstance = FirebaseFirestore.instance.collection('users');
     await fireStoreInstance
@@ -302,7 +272,6 @@ class DatabaseService {
         .doc(currentUserId)
         .delete();
   }
-
 
   //Will make two users friends upon the current user accepting a request
   //Will also have to remove the received friend request from the current user, as well as the sent request.
@@ -329,39 +298,6 @@ class DatabaseService {
     await declineReceivedFriendRequest(otherUser);
   }
 
-  //Brew list from snapshot
-  //underscore makes it private
-  List<Brew> _brewListFromSnapshot(QuerySnapshot snapshot) {
-    //will go through each "Document" and add key/value pairs.
-    return snapshot.docs.map((doc) {
-      return Brew(
-          name: doc.data()['name'] ?? '',
-          strength: doc.data()['strength'] ?? 0,
-          sugars: doc.data()['sugars'] ?? '0');
-    }).toList();
-  }
-
-  //userData from snapshot
-  UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
-    return UserData(
-      uid: uid,
-      name: snapshot.data()['name'],
-      sugars: snapshot.data()['sugars'],
-      strength: snapshot.data()['strength'],
-    );
-  }
-
-  //Get Brews Stream. Whenever something within the fireStore changes, this should get updated
-  Stream<List<Brew>> get brews {
-    return brewCollection.snapshots().map(_brewListFromSnapshot);
-  }
-
-  //Todo This might be a relic from when things were first being built. Perhaps delete it
-  //get user doc stream
-  Stream<UserData> get userData {
-    return brewCollection.doc(uid).snapshots().map(_userDataFromSnapshot);
-  }
-
   String getCurrentUserId() {
     return uid;
   }
@@ -378,19 +314,22 @@ class DatabaseService {
   }
 
   //Want to check the friend status between two users, to send them to the proper profile.
-  Future<int> friendStatus(CustomUser otherUser) async
-  {
+  Future<int> friendStatus(CustomUser otherUser) async {
     String currentUid = AuthService().fetchUid();
     String otherUid = otherUser.uid;
     final fireStoreInstance = FirebaseFirestore.instance.collection('users');
 
     //Case one. User's are friends.
+    if (currentUid == otherUid) {
+      return 0;
+    }
+
     var caseOne = await fireStoreInstance
         .doc(currentUid)
         .collection('friends')
         .doc(otherUid)
         .get();
-    if(caseOne.exists){
+    if (caseOne.exists) {
       print('CASE 1: These two users are friends');
       return 1;
     }
@@ -400,8 +339,9 @@ class DatabaseService {
         .collection('receivedFriendRequests')
         .doc(otherUid)
         .get();
-    if(caseTwo.exists){
-      print('CASE 2: This user has received a friend request from the other user.');
+    if (caseTwo.exists) {
+      print(
+          'CASE 2: This user has received a friend request from the other user.');
       return 2;
     }
 
@@ -411,7 +351,7 @@ class DatabaseService {
         .collection('sentFriendRequests')
         .doc(otherUid)
         .get();
-    if(caseThree.exists){
+    if (caseThree.exists) {
       print('CASE 3: This user has sent a friend request to the other user.');
       return 3;
     }
@@ -420,4 +360,21 @@ class DatabaseService {
     return 4;
   }
 
+  Future<void> submitFeedback(UserFeedback userFeedback) async {
+    String currentUserId = AuthService().fetchUid();
+    UserFeedback feedbackToSubmit = new UserFeedback(
+      currentUid: currentUserId,
+      open: userFeedback.open,
+      read: userFeedback.read,
+      timestamp: userFeedback.timestamp,
+      type: userFeedback.type,
+      userFeedback: userFeedback.userFeedback,
+    );
+
+    var feedbackMap = feedbackToSubmit.toMap();
+
+    final fireStoreInstance = FirebaseFirestore.instance;
+    //add the new feedback to firestore
+    await fireStoreInstance.collection('feedback').add(feedbackMap);
+  }
 }

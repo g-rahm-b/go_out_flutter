@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_search_bar/flutter_search_bar.dart';
 import 'package:go_out_v2/models/custom_user.dart';
 import 'package:go_out_v2/screens/friendsearch/friend_search_tile.dart';
 import 'package:go_out_v2/services/database.dart';
@@ -23,7 +22,6 @@ class CustomSearchBar extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 30,
-
           ),
         ),
       ),
@@ -36,7 +34,7 @@ class DataSearch extends SearchDelegate<String> {
   //ToDo: Populate this list with actual data.
   final userSearch = ["pat", "Ashley", "John", "Graeme", "Ashley 2"];
 
-  final recentUsers = ["pat", "fuck", "gay", "blah"];
+  final recentUsers = [];
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -68,7 +66,6 @@ class DataSearch extends SearchDelegate<String> {
     //When the user hits enter, or the search icon, this is where the query will be built.
     //For now, might make more sense to build a new list here, with everything that contains
     //the user's query.
-    print('I AM HERE');
     return FutureBuilder(
       future: DatabaseService().getUsersFromQuery(query),
       builder:
@@ -81,7 +78,6 @@ class DataSearch extends SearchDelegate<String> {
                 itemCount: userQueryList.length,
                 itemBuilder: (context, index) {
                   if (userQueryList.length == 0) {
-                    print('WE HAVE A HUGE ISSUE HERE');
                     return Text('No user name matches search');
                   }
                   return Dismissible(

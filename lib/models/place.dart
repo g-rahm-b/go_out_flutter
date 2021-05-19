@@ -1,52 +1,106 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Place {
   String name;
   String address;
   double latitude;
   double longitude;
   String photoReference;
-  int pricing;
+  double pricing;
   double rating;
   int vote;
+  DocumentSnapshot snapshot;
+  DocumentReference reference;
+  String documentID;
 
-  Place(
-      {this.name,
-      this.address,
-      this.latitude,
-      this.longitude,
-      this.photoReference,
-      this.pricing,
-      this.rating,
+  Place({
+    this.name,
+    this.address,
+    this.latitude,
+    this.longitude,
+    this.photoReference,
+    this.pricing,
+    this.rating,
+    this.vote,
+    this.snapshot,
+    this.reference,
+    this.documentID,
+  });
 
-      //Vote will only be used when a user is voting on places.
-      //Just adding this in here to ensure the places and votes don't get mixed up
-      this.vote});
+  factory Place.fromFirestore(DocumentSnapshot snapshot) {
+    if (snapshot == null) return null;
+    var map = snapshot.data();
 
-  Map toJson() => {
+    return Place(
+      name: map['name'],
+      address: map['address'],
+      latitude: map['latitude'],
+      longitude: map['longitude'],
+      photoReference: map['photoReference'],
+      pricing: map['pricing'],
+      rating: map['rating'],
+      vote: map['vote'],
+      snapshot: snapshot,
+      reference: snapshot.reference,
+      documentID: snapshot.id,
+    );
+  }
+
+  factory Place.fromMap(Map<String, dynamic> map) {
+    if (map == null) return null;
+
+    return Place(
+      name: map['name'],
+      address: map['address'],
+      latitude: map['latitude'],
+      longitude: map['longitude'],
+      photoReference: map['photoReference'],
+      pricing: map['pricing'],
+      rating: map['rating'],
+      vote: map['vote'],
+    );
+  }
+
+  Map<String, dynamic> toMap() => {
         'name': name,
         'address': address,
-        'latitude': latitude.toString(),
-        'longitude': longitude.toString(),
+        'latitude': latitude,
+        'longitude': longitude,
         'photoReference': photoReference,
-        'pricing': pricing.toString(),
-        'rating': rating.toString(),
+        'pricing': pricing,
+        'rating': rating,
+        'vote': vote,
       };
 
-  //When pulling an event out of the database
-  Place.fromJson(Map parsedJson) {
-    name = parsedJson['name'] ?? 'name Unknown';
-    address = parsedJson['address'] ?? 'address unknown';
-    latitude = parsedJson['latitude'] is String
-        ? double.parse(parsedJson['latitude'])
-        : parsedJson['latitude'];
-    longitude = parsedJson['longitude'] is String
-        ? double.parse(parsedJson['longitude'])
-        : parsedJson['longitude'];
-    photoReference = parsedJson['host'] ?? 'assets/default_user_image.png';
-    pricing = parsedJson['pricing'] is String
-        ? int.parse(parsedJson['pricing'])
-        : parsedJson['pricing'];
-    rating = parsedJson['rating'] is String
-        ? double.parse(parsedJson['rating'])
-        : parsedJson['rating'];
+  Place copyWith({
+    String name,
+    String address,
+    double latitude,
+    double longitude,
+    String photoReference,
+    double pricing,
+    double rating,
+    int vote,
+  }) {
+    return Place(
+      name: name ?? this.name,
+      address: address ?? this.address,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+      photoReference: photoReference ?? this.photoReference,
+      pricing: pricing ?? this.pricing,
+      rating: rating ?? this.rating,
+      vote: vote ?? this.vote,
+    );
   }
+
+  @override
+  String toString() {
+    return '${name.toString()}, ${address.toString()}, ${latitude.toString()}, ${longitude.toString()}, ${photoReference.toString()}, ${pricing.toString()}, ${rating.toString()}, ${vote.toString()}, ';
+  }
+
+  @override
+  bool operator ==(other) => other is Place && documentID == other.documentID;
+
+  int get hashCode => documentID.hashCode;
 }

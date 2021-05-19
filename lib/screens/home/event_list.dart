@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:go_out_v2/screens/event/event_tile.dart';
 import 'package:go_out_v2/services/eventDatabase.dart';
@@ -15,13 +14,13 @@ class _EventListState extends State<EventList> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: EventDatabase().getUserEvents(),
-      builder: (BuildContext context, AsyncSnapshot<List <Event>> snapshot) {
-        if(!snapshot.hasData) return Loading();
+      builder: (BuildContext context, AsyncSnapshot<List<Event>> snapshot) {
+        if (!snapshot.hasData) return Loading();
         List<Event> usersEvents = snapshot.data;
 
         return Expanded(
           child: ListView.builder(
-            itemCount: usersEvents.length,
+              itemCount: usersEvents.length,
               itemBuilder: (context, index) {
                 return EventTile(
                   index: index,
@@ -29,7 +28,6 @@ class _EventListState extends State<EventList> {
                 );
               }),
         );
-
       },
     );
     // return ListView.builder(

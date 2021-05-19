@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_out_v2/models/event.dart';
 import 'package:go_out_v2/screens/eventPlanning/planEventInviteFriends.dart';
+import 'package:go_out_v2/services/eventDatabase.dart';
 import 'package:go_out_v2/shared/constants.dart';
 import 'package:go_out_v2/models/typeSelection.dart';
 
+// ignore: must_be_immutable
 class PlanEvent extends StatefulWidget {
   //Receive the new event data
   Event newEvent = new Event();
@@ -49,7 +51,7 @@ class _PlanEventState extends State<PlanEvent> {
           color: const Color(0xFF167F67),
         )),
     const TypeSelection(
-        'Club',
+        'Night Club',
         Icon(
           Icons.speaker_group_outlined,
           color: const Color(0xFF167F67),
@@ -60,7 +62,7 @@ class _PlanEventState extends State<PlanEvent> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay initialTime = TimeOfDay.now();
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
-  String _hour, _minute, _time;
+  String _time, enteredEventName;
   TextEditingController _timeController = TextEditingController();
   TextEditingController _dateController = TextEditingController();
 
@@ -70,17 +72,10 @@ class _PlanEventState extends State<PlanEvent> {
     newEvent = widget.newEvent;
 
     return Scaffold(
-      backgroundColor: Colors.pink[100],
       appBar: AppBar(
         backgroundColor: Colors.pink[400],
         elevation: 0.0,
         title: Text('Event Details'),
-        actions: <Widget>[
-          TextButton.icon(
-              onPressed: () {},
-              icon: Icon(Icons.person),
-              label: Text('Placeholder'))
-        ],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -89,19 +84,30 @@ class _PlanEventState extends State<PlanEvent> {
               //key will keep track of the form
               key: _formKey,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(height: 10.0),
+                  Container(
+                    width: 200,
+                    child: Text(
+                      "Event Name",
+                      textAlign: TextAlign.start, // has impact
+                    ),
+                  ),
                   TextFormField(
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     decoration: textInputDecoration.copyWith(
-                        hintText: 'Name your event!'),
+                        hintText: 'Tap here to name event!'),
                     validator: (val) =>
                         val.isEmpty ? 'Enter your event name' : null,
                     onChanged: (val) {
-                      newEvent.eventName = val;
-                      setState(() => newEvent.eventName = val);
+                      enteredEventName = val;
+                      // setState(() => newEvent.eventName = val);
                     },
                   ),
                   SizedBox(height: 10.0),
+                  Text(
+                    'Event Date:',
+                  ),
                   TextFormField(
                     enabled: false,
                     controller: _dateController,
@@ -109,21 +115,10 @@ class _PlanEventState extends State<PlanEvent> {
                         val.isEmpty ? 'Please select a date' : null,
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(width: 10.0),
-                  Row(
-                    children: [
-                      ElevatedButton.icon(
-                        onPressed: () => _selectDate(context),
-                        icon: Icon(Icons.date_range),
-                        label: Text(
-                          'Choose date',
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
                   SizedBox(height: 10.0),
+                  Text(
+                    'Event Time:',
+                  ),
                   TextFormField(
                     enabled: false,
                     validator: (val) =>
@@ -132,24 +127,16 @@ class _PlanEventState extends State<PlanEvent> {
                     controller: _timeController,
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(width: 10.0),
-                  Row(
-                    children: [
-                      ElevatedButton.icon(
-                        onPressed: () => _selectTime(context),
-                        icon: Icon(Icons.access_time),
-                        label: Text(
-                          'Choose Time',
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
                   SizedBox(height: 10.0),
+                  Text('Event Type:'),
                   DropdownButton<TypeSelection>(
+                    isExpanded: true,
                     hint: Text('Select Event Type'),
                     value: selectedType,
+                    style: new TextStyle(
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold),
                     onChanged: (TypeSelection value) {
                       setState(() {
                         selectedType = value;
@@ -172,32 +159,107 @@ class _PlanEventState extends State<PlanEvent> {
                           ));
                     }).toList(),
                   ),
+                  SizedBox(height: 10.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      FloatingActionButton.extended(
+                        heroTag: "btn1",
+                        onPressed: () => _selectDate(context),
+                        label: Text('Date'),
+                        icon: Icon(Icons.date_range),
+                        backgroundColor: Colors.pink,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      FloatingActionButton.extended(
+                        heroTag: "btn2",
+                        onPressed: () => _selectTime(context),
+                        label: Text('Time'),
+                        icon: Icon(Icons.access_time),
+                        backgroundColor: Colors.pink,
+                      ),
+                    ],
+                  ),
                   SizedBox(height: 40.0),
-                  ElevatedButton.icon(
-                    icon: Icon(Icons.add_circle),
-                    label: Text('Invite Friends!'),
-                    onPressed: () {
-                      if (_formKey.currentState.validate() && selectedType != null) {
-                        newEvent.date = new DateTime(
-                            selectedDate.year,
-                            selectedDate.month,
-                            selectedDate.day,
-                            selectedTime.hour,
-                            selectedTime.minute).toString();
-                        newEvent.type = selectedType.type;
-                        print('');
-                        print('New Event Data is: ');
-                        print(newEvent.eventName);
-                        print(newEvent.type);
-                        print(newEvent.date);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => PlanEventInviteFriends(newEvent: newEvent)));
-                      }
-                      else{
-                        print('ERROR');
-                      }
-                    },
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Text('Once everything is filled out:'),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      FloatingActionButton.extended(
+                        heroTag: "btn3",
+                        onPressed: () async {
+                          if (_formKey.currentState.validate() &&
+                              selectedType != null) {
+                            Event tempEvent = Event(
+                              date: new DateTime(
+                                      selectedDate.year,
+                                      selectedDate.month,
+                                      selectedDate.day,
+                                      selectedTime.hour,
+                                      selectedTime.minute)
+                                  .toString(),
+                              eventName: enteredEventName,
+                              type: selectedType.type,
+                              searchRadius: newEvent.searchRadius,
+                              lat: newEvent.lat,
+                              lng: newEvent.lng,
+                            );
+                            //Want to check if there are google place results before creating the event
+                            newEvent = await EventDatabase()
+                                .getPlacesForEvent(tempEvent)
+                                // ignore: missing_return
+                                .then((value) {
+                              //If there's no results, want to inform user
+                              if (value.googleLink == 'Empty') {
+                                print('there are no results');
+                                return showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title:
+                                            Text('No ${tempEvent.type}s Here'),
+                                        content: Text(
+                                            'There are no places in your search area that match your event criteria. Please go back and either expand your search radius, change your search location, or change your event type.'),
+                                        actions: <Widget>[
+                                          ElevatedButton(
+                                            child: Text('OK'),
+                                            onPressed: () {
+                                              setState(() {
+                                                Navigator.pop(context);
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              } else {
+                                //If we are here, then we have populated results, and can go invite friends.
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            PlanEventInviteFriends(
+                                                newEvent: value)));
+                              }
+                            });
+                          } else {
+                            print('ERROR');
+                          }
+                        },
+                        label: Text('Invite Friends!'),
+                        icon: Icon(Icons.add_circle),
+                        backgroundColor: Colors.pink,
+                      ),
+                    ],
                   ),
                   SizedBox(height: 15.0),
                   Text(

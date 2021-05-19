@@ -4,12 +4,12 @@ import 'package:go_out_v2/models/custom_user.dart';
 import 'package:go_out_v2/screens/profile/other_users_profile.dart';
 import 'package:go_out_v2/services/profileDatabase.dart';
 
-class SentFriendRequestTile extends StatelessWidget {
+class FriendTile extends StatelessWidget {
   // final CustomUser user;
   // SentFriendRequestTile({this.user});
   final int index;
   final List<CustomUser> users;
-  SentFriendRequestTile({this.index, this.users});
+  FriendTile({this.index, this.users});
 
   @override
   Widget build(BuildContext context) {
@@ -100,14 +100,3 @@ class SentFriendRequestTile extends StatelessWidget {
         ));
   }
 }
-
-// onTap: () {
-//   //navigate to the profile page here
-//   Navigator.push(
-//     context,
-//     //ToDo - Send to ANOTHER user's profile page
-//     MaterialPageRoute(
-//       builder: (context) => OtherUsersProfilePage(user: users[index]),
-//     ),
-//   );
-// },

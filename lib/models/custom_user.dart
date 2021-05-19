@@ -1,115 +1,173 @@
-import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CustomUser {
-  //ToDo: Will need to add the user's friends and events lists to this model
-  String uid;
-  String name;
-  String country;
-  String state;
-  String city;
-  String imageUrl;
+  final String uid;
+  final String name;
+  final String country;
+  final String state;
+  final String city;
+  final String imageUrl;
   bool isInvited;
   bool acceptedInvite;
   bool voteStatus;
-  String friendRequestTimeStamp;
-  List<String> friendRequestsReceived;
-  List<String> friendRequestsSent;
-  List<String> friends;
-  List<String> eventInvites;
-  List<String> events;
+  final String friendRequestTimeStamp;
+  final List<String> friendRequestsReceived;
+  final List<String> friendRequestsSent;
+  final List<String> friends;
+  final List<String> eventInvites;
+  final List<String> events;
+  final DocumentSnapshot snapshot;
+  final DocumentReference reference;
+  final String documentID;
 
-  CustomUser(
-      {this.uid,
-      this.name,
-      this.city,
-      this.country,
-      this.state,
-      this.imageUrl,
-      this.friendRequestTimeStamp,
-      this.friendRequestsReceived,
-      this.friendRequestsSent,
-      this.friends,
-      this.eventInvites,
-      this.events,
-      this.isInvited,
-      this.acceptedInvite,
-      this.voteStatus});
+  CustomUser({
+    this.uid,
+    this.name,
+    this.country,
+    this.state,
+    this.city,
+    this.imageUrl,
+    this.isInvited,
+    this.acceptedInvite,
+    this.voteStatus,
+    this.friendRequestTimeStamp,
+    this.friendRequestsReceived,
+    this.friendRequestsSent,
+    this.friends,
+    this.eventInvites,
+    this.events,
+    this.snapshot,
+    this.reference,
+    this.documentID,
+  });
 
-  Map toJson() => {
+  factory CustomUser.fromFirestore(DocumentSnapshot snapshot) {
+    if (snapshot == null) return null;
+    var map = snapshot.data();
+    return CustomUser(
+      uid: map['uid'],
+      name: map['name'],
+      country: map['country'],
+      state: map['state'],
+      city: map['city'],
+      imageUrl: map['imageUrl'],
+      isInvited: map['isInvited'],
+      acceptedInvite: map['acceptedInvite'],
+      voteStatus: map['voteStatus'],
+      friendRequestTimeStamp: map['friendRequestTimeStamp'],
+      friendRequestsReceived: map['friendRequestsReceived'] != null
+          ? List<String>.from(map['friendRequestsReceived'])
+          : null,
+      friendRequestsSent: map['friendRequestsSent'] != null
+          ? List<String>.from(map['friendRequestsSent'])
+          : null,
+      friends:
+          map['friends'] != null ? List<String>.from(map['friends']) : null,
+      eventInvites: map['eventInvites'] != null
+          ? List<String>.from(map['eventInvites'])
+          : null,
+      events: map['events'] != null ? List<String>.from(map['events']) : null,
+      snapshot: snapshot,
+      reference: snapshot.reference,
+      documentID: snapshot.id,
+    );
+  }
+
+  factory CustomUser.fromMap(Map<String, dynamic> map) {
+    if (map == null) return null;
+
+    return CustomUser(
+      uid: map['uid'],
+      name: map['name'],
+      country: map['country'],
+      state: map['state'],
+      city: map['city'],
+      imageUrl: map['imageUrl'],
+      isInvited: map['isInvited'],
+      acceptedInvite: map['acceptedInvite'],
+      voteStatus: map['voteStatus'],
+      friendRequestTimeStamp: map['friendRequestTimeStamp'],
+      friendRequestsReceived: map['friendRequestsReceived'] != null
+          ? List<String>.from(map['friendRequestsReceived'])
+          : null,
+      friendRequestsSent: map['friendRequestsSent'] != null
+          ? List<String>.from(map['friendRequestsSent'])
+          : null,
+      friends:
+          map['friends'] != null ? List<String>.from(map['friends']) : null,
+      eventInvites: map['eventInvites'] != null
+          ? List<String>.from(map['eventInvites'])
+          : null,
+      events: map['events'] != null ? List<String>.from(map['events']) : null,
+    );
+  }
+
+  Map<String, dynamic> toMap() => {
         'uid': uid,
         'name': name,
-        'city': city,
         'country': country,
         'state': state,
+        'city': city,
         'imageUrl': imageUrl,
-        'friendRequestTimeStamp': friendRequestTimeStamp.toString(),
-        'isInvited': isInvited.toString(),
-        'acceptedInvite': acceptedInvite.toString(),
-        'voteStatus': voteStatus.toString(),
-        'friendRequestsReceived': jsonEncode(friendRequestsReceived),
-        'friendRequestsSent': jsonEncode(friendRequestsSent),
-        'friends': jsonEncode(friends),
-        'eventInvites': jsonEncode(eventInvites),
-        'events': jsonEncode(events),
+        'isInvited': isInvited,
+        'acceptedInvite': acceptedInvite,
+        'voteStatus': voteStatus,
+        'friendRequestTimeStamp': friendRequestTimeStamp,
+        'friendRequestsReceived': friendRequestsReceived,
+        'friendRequestsSent': friendRequestsSent,
+        'friends': friends,
+        'eventInvites': eventInvites,
+        'events': events,
       };
 
-//When pulling an event out of the database
-  CustomUser.fromJson(Map parsedJson) {
-    uid = parsedJson['uid'] ?? 'Failed to load UID';
-    name = parsedJson['name'] ?? 'Failed to load name';
-    city = parsedJson['city'] ?? 'Failed to load city';
-    country = parsedJson['country'] ?? 'country Unknown';
-    state = parsedJson['state'] ?? 'state Unknown';
-    imageUrl = parsedJson['imageUrl'] ?? 'assets/default_user_image.png';
-    friendRequestTimeStamp = parsedJson['friendRequestTimeStamp'] ?? null;
-    if (parsedJson['friendRequestsReceived'] != 'null') {
-      friendRequestsReceived = <String>[];
-      parsedJson['friendRequestsReceived'].forEach((v) {
-        friendRequestsReceived.add(v);
-      });
-    } else {
-      friendRequestsReceived = null;
-    }
-    if (parsedJson['friendRequestsSent'] != 'null') {
-      friendRequestsSent = <String>[];
-      parsedJson['friendRequestsSent'].forEach((v) {
-        friendRequestsSent.add(v);
-      });
-    } else {
-      friendRequestsSent = null;
-    }
-    if (parsedJson['friends'] != 'null') {
-      friendRequestsSent = <String>[];
-      parsedJson['friends'].forEach((v) {
-        friends.add(v);
-      });
-    } else {
-      friends = null;
-    }
-    if (parsedJson['eventInvites'] != 'null') {
-      eventInvites = <String>[];
-      parsedJson['eventInvites'].forEach((v) {
-        eventInvites.add(v);
-      });
-    } else {
-      eventInvites = null;
-    }
-    if (parsedJson['acceptedInvite'] == "true") {
-      acceptedInvite = true;
-    } else {
-      acceptedInvite = false;
-    }
-    if (parsedJson['isInvited'] == "true") {
-      isInvited = true;
-    } else {
-      isInvited = false;
-    }
-    if (parsedJson['voteStatus'] == "true") {
-      voteStatus = true;
-    } else {
-      voteStatus = false;
-    }
+  CustomUser copyWith({
+    String uid,
+    String name,
+    String country,
+    String state,
+    String city,
+    String imageUrl,
+    bool isInvited,
+    bool acceptedInvite,
+    bool voteStatus,
+    String friendRequestTimeStamp,
+    List<String> friendRequestsReceived,
+    List<String> friendRequestsSent,
+    List<String> friends,
+    List<String> eventInvites,
+    List<String> events,
+  }) {
+    return CustomUser(
+      uid: uid ?? this.uid,
+      name: name ?? this.name,
+      country: country ?? this.country,
+      state: state ?? this.state,
+      city: city ?? this.city,
+      imageUrl: imageUrl ?? this.imageUrl,
+      isInvited: isInvited ?? this.isInvited,
+      acceptedInvite: acceptedInvite ?? this.acceptedInvite,
+      voteStatus: voteStatus ?? this.voteStatus,
+      friendRequestTimeStamp:
+          friendRequestTimeStamp ?? this.friendRequestTimeStamp,
+      friendRequestsReceived:
+          friendRequestsReceived ?? this.friendRequestsReceived,
+      friendRequestsSent: friendRequestsSent ?? this.friendRequestsSent,
+      friends: friends ?? this.friends,
+      eventInvites: eventInvites ?? this.eventInvites,
+      events: events ?? this.events,
+    );
   }
+
+  @override
+  String toString() {
+    return '${uid.toString()}, ${name.toString()}, ${country.toString()}, ${state.toString()}, ${city.toString()}, ${imageUrl.toString()}, ${isInvited.toString()}, ${acceptedInvite.toString()}, ${voteStatus.toString()}, ${friendRequestTimeStamp.toString()}, ${friendRequestsReceived.toString()}, ${friendRequestsSent.toString()}, ${friends.toString()}, ${eventInvites.toString()}, ${events.toString()}, ';
+  }
+
+  @override
+  bool operator ==(other) =>
+      other is CustomUser && documentID == other.documentID;
+
+  int get hashCode => documentID.hashCode;
 }
 
 //ToDo: I doubt I'll need userData, as the CustomUser is what's primarily used.

@@ -1,65 +1,57 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_out_v2/models/event.dart';
 import 'package:go_out_v2/screens/event/event_details.dart';
-import 'package:go_out_v2/screens/event/vote_on_event.dart';
+import 'package:go_out_v2/screens/event/event_tile_general.dart';
+import 'package:go_out_v2/services/eventDatabase.dart';
 
-class EventTileGeneral extends StatefulWidget {
+class EventTileInvite extends StatefulWidget {
   final int index;
   final List<Event> events;
   final bool isHost, acceptedInvite, voteStatus;
 
-  const EventTileGeneral(this.events, this.index, this.isHost,
+  const EventTileInvite(this.events, this.index, this.isHost,
       this.acceptedInvite, this.voteStatus);
 
   @override
-  _EventTileGeneralState createState() =>
-      _EventTileGeneralState(events, index, isHost, acceptedInvite, voteStatus);
+  _EventTileInviteState createState() =>
+      _EventTileInviteState(events, index, isHost, acceptedInvite, voteStatus);
 }
 
-class _EventTileGeneralState extends State<EventTileGeneral> {
+class _EventTileInviteState extends State<EventTileInvite> {
   int index;
   List<Event> events;
   bool isHost, acceptedInvite, voteStatus;
-  _EventTileGeneralState(this.events, this.index, this.isHost,
+  _EventTileInviteState(this.events, this.index, this.isHost,
       this.acceptedInvite, this.voteStatus);
-  Icon typeIcon = Icon(Icons.smartphone_outlined);
-  String voteButtonString = '';
-  bool leaveEvent = false;
-  double iconSize = 50.0;
+  Icon typeIcon = Icon(
+    Icons.smartphone_outlined,
+    size: 100,
+  );
+  bool declineInvite = false;
 
   @override
   Widget build(BuildContext context) {
-    if (events[widget.index].type == 'Bar') {
-      typeIcon = Icon(
-        FontAwesomeIcons.glassCheers,
-        size: iconSize,
-      );
-    } else if (events[widget.index].type == 'Restaurant') {
-      typeIcon = Icon(
-        FontAwesomeIcons.utensils,
-        size: iconSize,
-      );
-    } else if (events[widget.index].type == 'Club') {
-      typeIcon = Icon(
-        FontAwesomeIcons.music,
-        size: iconSize,
-      );
-    } else if (events[widget.index].type == 'Pub') {
-      typeIcon = Icon(
-        FontAwesomeIcons.beer,
-        size: iconSize,
-      );
+    if (acceptedInvite) {
+      return EventTileGeneral(
+          events, index, isHost, acceptedInvite, voteStatus);
     }
-
-    voteButtonString = getVoteButtonString(widget.voteStatus);
-
-    if (leaveEvent == true) {
+    if (declineInvite) {
       return Container();
     }
+
+    if (events[widget.index].type == 'Bar') {
+      typeIcon = Icon(Icons.local_bar_outlined);
+    } else if (events[widget.index].type == 'Restaurant') {
+      typeIcon = Icon(Icons.restaurant_outlined);
+    } else if (events[widget.index].type == 'Club') {
+      typeIcon = Icon(Icons.speaker_group_outlined);
+    } else if (events[widget.index].type == 'Pub') {
+      typeIcon = Icon(Icons.event_seat);
+    }
+
     return Card(
-      color: Colors.white,
+      color: Colors.pink[50],
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
@@ -86,7 +78,7 @@ class _EventTileGeneralState extends State<EventTileGeneral> {
                       style: TextStyle(fontSize: 20, color: Colors.red[900]),
                     ),
                     Text(
-                      'Event created by ${events[widget.index].host.name}',
+                      '${events[widget.index].host.name} is inviting you to an event!',
                       textAlign: TextAlign.left,
                     ),
                     SizedBox(
@@ -134,7 +126,7 @@ class _EventTileGeneralState extends State<EventTileGeneral> {
                             color: Colors.white,
                           ), // icon
                           Text(
-                            'Event',
+                            "Event",
                             style: TextStyle(color: Colors.white, fontSize: 12),
                           ), // text
                         ],
@@ -143,48 +135,51 @@ class _EventTileGeneralState extends State<EventTileGeneral> {
                   ),
                 ),
               ),
-              if (!voteStatus)
-                SizedBox.fromSize(
-                  size: Size(60, 60), // button width and height
-                  child: ClipOval(
-                    child: Material(
-                      color: Colors.purple[900], // button color
-                      child: InkWell(
-                        splashColor: Colors.green, // splash color
-                        onTap: () {
-                          if (voteStatus) {
+              SizedBox.fromSize(
+                size: Size(60, 60), // button width and height
+                child: ClipOval(
+                  child: Material(
+                    color: Colors.green[900], // button color
+                    child: InkWell(
+                      splashColor: Colors.green, // splash color
+                      onTap: () async {
+                        print('Accepted the invite');
+                        await EventDatabase()
+                            .acceptEventInvite(events[widget.index])
+                            .then((value) {
+                          print('returned value is $value');
+                          //Status of 1 is successful, status of 0 is a failure.
+                          if (value == 1) {
+                            setState(() {
+                              acceptedInvite = true;
+                            });
+                          } else {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) =>
-                                  _alreadyVotedPopup(context),
+                                  _acceptInviteFail(context),
                             );
-                          } else {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => VoteOnEvent(
-                                        newEvent: events[widget.index])));
                           }
-                        }, // button pressed
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.how_to_vote_outlined,
-                              size: 30,
-                              color: Colors.white,
-                            ), // icon
-                            Text(
-                              voteButtonString,
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 12),
-                            ), // text
-                          ],
-                        ),
+                        });
+                      }, // button pressed
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.add_circle_outline_sharp,
+                            size: 30,
+                            color: Colors.white,
+                          ), // icon
+                          Text(
+                            "Accept",
+                            style: TextStyle(color: Colors.white, fontSize: 12),
+                          ), // text
+                        ],
                       ),
                     ),
                   ),
                 ),
+              ),
               SizedBox.fromSize(
                 size: Size(60, 60), // button width and height
                 child: ClipOval(
@@ -194,51 +189,49 @@ class _EventTileGeneralState extends State<EventTileGeneral> {
                       splashColor: Colors.green, // splash color
                       onTap: () {
                         showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return new AlertDialog(
-                              title: const Text('Leave Event?'),
-                              content: new Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                      "Are you sure that you'd like to leave this event?."),
+                            context: context,
+                            builder: (BuildContext context) {
+                              return new AlertDialog(
+                                title: const Text('Decline Invitation?'),
+                                content: new Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                        "Are you sure that you'd like to decline the event invitation? You will have to ask the host to re-invite you if you do."),
+                                  ],
+                                ),
+                                actions: <Widget>[
+                                  new ElevatedButton(
+                                    onPressed: () async {
+                                      declineInvite = true;
+                                      Navigator.of(context).pop();
+                                      await EventDatabase()
+                                          .declineEventInvite(events[index]);
+                                      setState(() {});
+                                    },
+                                    child: const Text('Decline Invitation.'),
+                                  ),
+                                  new ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('Go back.'),
+                                  ),
                                 ],
-                              ),
-                              actions: <Widget>[
-                                new ElevatedButton(
-                                  onPressed: () async {
-                                    print('Leaving event');
-                                    // await EventDatabase()
-                                    //       .leaveEvent(events[index]);
-                                    leaveEvent = true;
-                                    Navigator.pop(context);
-                                    setState(() {});
-                                  },
-                                  child: const Text('Confirm Leave.'),
-                                ),
-                                new ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('Go back.'),
-                                ),
-                              ],
-                            );
-                          },
-                        );
+                              );
+                            });
                       }, // button pressed
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Icon(
-                            Icons.cancel_outlined,
+                            Icons.remove_circle_outline,
                             size: 30,
                             color: Colors.white,
                           ), // icon
                           Text(
-                            'Leave',
+                            "Decline",
                             style: TextStyle(color: Colors.white, fontSize: 12),
                           ), // text
                         ],
@@ -249,41 +242,32 @@ class _EventTileGeneralState extends State<EventTileGeneral> {
               ),
             ],
           ),
-          // Image.asset('assets/rave.jpg'),
-          // Image.asset('assets/pub.jpg'),
         ],
       ),
     );
   }
 }
 
-String getVoteButtonString(bool voteStatus) {
-  if (voteStatus) {
-    return 'Voting Complete';
-  } else {
-    return 'Vote';
-  }
-}
+Widget _leaveEvent(BuildContext context) {}
 
-Widget _alreadyVotedPopup(BuildContext context) {
+Widget _acceptInviteFail(BuildContext context) {
   return new AlertDialog(
-    title: const Text('You have already voted for this event!'),
+    title: const Text('Accept Failed'),
     content: new Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
-      // children: <Widget>[
-      //   Text("Hello"),
-      // ],
+      children: <Widget>[
+        Text(
+            "There hase beena database error accepting this invite. Please try again."),
+      ],
     ),
     actions: <Widget>[
       new ElevatedButton(
         onPressed: () {
           Navigator.of(context).pop();
         },
-        child: const Text('Close Notification'),
+        child: const Text('Go back.'),
       ),
     ],
   );
 }
-
-Widget _leaveEvent(BuildContext context) {}
