@@ -17,7 +17,6 @@ class _EventListState extends State<EventList> {
       builder: (BuildContext context, AsyncSnapshot<List<Event>> snapshot) {
         if (!snapshot.hasData) return Loading();
         List<Event> usersEvents = snapshot.data;
-
         return Expanded(
           child: ListView.builder(
               itemCount: usersEvents.length,
