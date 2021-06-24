@@ -6,9 +6,6 @@ import 'package:go_out_v2/shared/loading.dart';
 import 'package:country_picker/country_picker.dart';
 
 class Register extends StatefulWidget {
-  final Function toggleView;
-  Register({this.toggleView});
-
   @override
   _RegisterState createState() => _RegisterState();
 }
@@ -39,161 +36,159 @@ class _RegisterState extends State<Register> {
     return loading
         ? Loading()
         : Scaffold(
-            backgroundColor: Colors.pink[100],
             appBar: AppBar(
-              backgroundColor: Colors.pink[400],
               elevation: 0.0,
-              title: Text('Sign up to Go Out'),
-              actions: <Widget>[
-                TextButton.icon(
-                    onPressed: () {
-                      widget.toggleView();
-                    },
-                    icon: Icon(Icons.person),
-                    label: Text('Or Sign In'))
-              ],
+              title: Text('Email Registration'),
             ),
             body: Container(
                 padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
                 child: Form(
                   //key will keep track of the form
                   key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(height: 10.0),
-                      TextFormField(
-                        decoration:
-                            textInputDecoration.copyWith(hintText: 'Email'),
-                        validator: (val) =>
-                            val.isEmpty ? 'Enter an email' : null,
-                        onChanged: (val) {
-                          setState(() => email = val);
-                        },
-                      ),
-                      SizedBox(height: 10.0),
-                      TextFormField(
-                        decoration:
-                            textInputDecoration.copyWith(hintText: 'Password'),
-                        obscureText: true,
-                        validator: (val) => val.length < 6
-                            ? 'Enter a password 6+ chars long'
-                            : null,
-                        onChanged: (val) {
-                          setState(() => password = val);
-                        },
-                      ),
-                      SizedBox(height: 10.0),
-                      TextFormField(
-                        decoration:
-                            textInputDecoration.copyWith(hintText: 'Name'),
-                        obscureText: false,
-                        validator: (val) =>
-                            val.isEmpty ? 'Please provide a name!' : null,
-                        onChanged: (val) {
-                          setState(() => name = val);
-                        },
-                      ),
-                      SizedBox(height: 10.0),
-                      TextFormField(
-                        enableInteractiveSelection: false,
-                        focusNode: new AlwaysDisabledFocusNode(),
-                        decoration: textInputDecoration.copyWith(
-                            hintText: 'Select Country'),
-                        obscureText: false,
-                        controller: countryTextController,
-                        validator: (val) =>
-                            val.isEmpty ? 'Please select your country!' : null,
-                        onChanged: (val) {
-                          setState(() => selectedCountry = val);
-                        },
-                      ),
-                      SizedBox(height: 10.0),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          showCountryPicker(
-                            context: context,
-                            //Optional.  Can be used to exclude(remove) one ore more country from the countries list (optional).
-                            exclude: <String>['KN', 'MF'],
-                            //Optional. Shows phone code before the country name.
-                            showPhoneCode: false,
-                            onSelect: (Country country) {
-                              print('Select country: ${country.displayName}');
-                              selectedCountry = country.displayName;
-                              countryTextController.text = country.displayName;
-                            },
-                          );
-                        },
-                        icon: Icon(Icons.arrow_drop_down_rounded),
-                        label: const Text('Choose Your Country'),
-                        style: ButtonStyle(backgroundColor:
-                            MaterialStateProperty.resolveWith<Color>(
-                                (Set<MaterialState> states) {
-                          return Colors.pink[400];
-                        })),
-                      ),
-                      SizedBox(height: 10.0),
-                      TextFormField(
-                        decoration: textInputDecoration.copyWith(
-                            hintText: 'State or Province'),
-                        obscureText: false,
-                        validator: (val) => val.isEmpty
-                            ? 'Please provide a state or province!'
-                            : null,
-                        onChanged: (val) {
-                          setState(() => state = val);
-                        },
-                      ),
-                      SizedBox(height: 10.0),
-                      TextFormField(
-                        decoration:
-                            textInputDecoration.copyWith(hintText: 'City'),
-                        obscureText: false,
-                        validator: (val) =>
-                            val.isEmpty ? 'Please provide a city!' : null,
-                        onChanged: (val) {
-                          setState(() => city = val);
-                        },
-                      ),
-                      SizedBox(height: 10.0),
-                      ElevatedButton(
-                        child: Text(
-                          'Register',
-                          style: TextStyle(color: Colors.white),
+                  child: SingleChildScrollView(
+                    reverse: true,
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(height: 10.0),
+                        TextFormField(
+                          decoration:
+                              textInputDecoration.copyWith(hintText: 'Email'),
+                          validator: (val) =>
+                              val.isEmpty ? 'Enter an email' : null,
+                          onChanged: (val) {
+                            setState(() => email = val);
+                          },
                         ),
-                        style: ButtonStyle(backgroundColor:
-                            MaterialStateProperty.resolveWith<Color>(
-                                (Set<MaterialState> states) {
-                          return Colors.pink[400];
-                        })),
-                        onPressed: () async {
-                          if (_formKey.currentState.validate()) {
-                            setState(() => loading = true);
-                            CustomUser newUser = new CustomUser(
-                                name: name,
-                                country: selectedCountry,
-                                state: state,
-                                city: city);
+                        SizedBox(height: 10.0),
+                        TextFormField(
+                          decoration: textInputDecoration.copyWith(
+                              hintText: 'Password'),
+                          obscureText: true,
+                          validator: (val) => val.length < 6
+                              ? 'Enter a password 6+ chars long'
+                              : null,
+                          onChanged: (val) {
+                            setState(() => password = val);
+                          },
+                        ),
+                        SizedBox(height: 10.0),
+                        TextFormField(
+                          decoration:
+                              textInputDecoration.copyWith(hintText: 'Name'),
+                          obscureText: false,
+                          validator: (val) =>
+                              val.isEmpty ? 'Please provide a name!' : null,
+                          onChanged: (val) {
+                            setState(() => name = val);
+                          },
+                        ),
+                        SizedBox(height: 10.0),
+                        TextFormField(
+                          enableInteractiveSelection: false,
+                          focusNode: new AlwaysDisabledFocusNode(),
+                          decoration: textInputDecoration.copyWith(
+                              hintText: 'Select Country'),
+                          obscureText: false,
+                          controller: countryTextController,
+                          validator: (val) => val.isEmpty
+                              ? 'Please select your country!'
+                              : null,
+                          onChanged: (val) {
+                            setState(() => selectedCountry = val);
+                          },
+                        ),
+                        SizedBox(height: 10.0),
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            showCountryPicker(
+                              context: context,
+                              //Optional.  Can be used to exclude(remove) one ore more country from the countries list (optional).
+                              exclude: <String>['KN', 'MF'],
+                              //Optional. Shows phone code before the country name.
+                              showPhoneCode: false,
+                              onSelect: (Country country) {
+                                print('Select country: ${country.displayName}');
+                                selectedCountry = country.displayName;
+                                countryTextController.text =
+                                    country.displayName;
+                              },
+                            );
+                          },
+                          icon: Icon(Icons.arrow_drop_down_rounded),
+                          label: const Text('Choose Your Country'),
+                        ),
+                        SizedBox(height: 10.0),
+                        TextFormField(
+                          decoration: textInputDecoration.copyWith(
+                              hintText: 'State or Province'),
+                          obscureText: false,
+                          validator: (val) => val.isEmpty
+                              ? 'Please provide a state or province!'
+                              : null,
+                          onChanged: (val) {
+                            setState(() => state = val);
+                          },
+                        ),
+                        SizedBox(height: 10.0),
+                        TextFormField(
+                          decoration:
+                              textInputDecoration.copyWith(hintText: 'City'),
+                          obscureText: false,
+                          validator: (val) =>
+                              val.isEmpty ? 'Please provide a city!' : null,
+                          onChanged: (val) {
+                            setState(() => city = val);
+                          },
+                        ),
+                        SizedBox(height: 10.0),
+                        OutlinedButton.icon(
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all(
+                                StadiumBorder(),
+                              ),
+                              //padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12)
+                            ),
+                            onPressed: () async {
+                              if (_formKey.currentState.validate()) {
+                                setState(() => loading = true);
+                                CustomUser newUser = new CustomUser(
+                                    name: name,
+                                    country: selectedCountry,
+                                    state: state,
+                                    city: city);
 
-                            dynamic result =
-                                await _auth.registerWithEmailAndPassword(
-                                    email, password, newUser);
+                                dynamic result =
+                                    await _auth.registerWithEmailAndPassword(
+                                        email, password, newUser);
 
-                            if (result == null) {
-                              setState(() {
-                                error =
-                                    'There was an error processing the registration request, please try again.';
-                                loading = false;
-                              });
-                            }
-                          }
-                        },
-                      ),
-                      SizedBox(height: 15.0),
-                      Text(
-                        error,
-                        style: TextStyle(color: Colors.red, fontSize: 14.0),
-                      ),
-                    ],
+                                if (result == null) {
+                                  setState(() {
+                                    error =
+                                        'There was an error processing the registration request, please try again.';
+                                    loading = false;
+                                  });
+                                } else {
+                                  Navigator.pop(context);
+                                }
+                              }
+                            },
+                            icon: Icon(
+                              Icons.mail_outline,
+                            ),
+                            label: Text(
+                              'Confirm Details and Register',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            )),
+                        SizedBox(height: 10.0),
+                        Text(
+                          error,
+                          style: TextStyle(color: Colors.red, fontSize: 14.0),
+                        ),
+                      ],
+                    ),
                   ),
                 )),
           );

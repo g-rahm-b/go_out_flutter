@@ -6,10 +6,11 @@ class CustomUser {
   final String country;
   final String state;
   final String city;
-  final String imageUrl;
+  String imageUrl;
   bool isInvited;
   bool acceptedInvite;
   bool voteStatus;
+  bool isEmailVerified;
   final String friendRequestTimeStamp;
   final List<String> friendRequestsReceived;
   final List<String> friendRequestsSent;
@@ -20,26 +21,26 @@ class CustomUser {
   final DocumentReference reference;
   final String documentID;
 
-  CustomUser({
-    this.uid,
-    this.name,
-    this.country,
-    this.state,
-    this.city,
-    this.imageUrl,
-    this.isInvited,
-    this.acceptedInvite,
-    this.voteStatus,
-    this.friendRequestTimeStamp,
-    this.friendRequestsReceived,
-    this.friendRequestsSent,
-    this.friends,
-    this.eventInvites,
-    this.events,
-    this.snapshot,
-    this.reference,
-    this.documentID,
-  });
+  CustomUser(
+      {this.uid,
+      this.name,
+      this.country,
+      this.state,
+      this.city,
+      this.imageUrl,
+      this.isInvited,
+      this.acceptedInvite,
+      this.voteStatus,
+      this.friendRequestTimeStamp,
+      this.friendRequestsReceived,
+      this.friendRequestsSent,
+      this.friends,
+      this.eventInvites,
+      this.events,
+      this.snapshot,
+      this.reference,
+      this.documentID,
+      this.isEmailVerified});
 
   factory CustomUser.fromFirestore(DocumentSnapshot snapshot) {
     if (snapshot == null) return null;
@@ -54,6 +55,7 @@ class CustomUser {
       isInvited: map['isInvited'],
       acceptedInvite: map['acceptedInvite'],
       voteStatus: map['voteStatus'],
+      isEmailVerified: map['isEmailVerified'],
       friendRequestTimeStamp: map['friendRequestTimeStamp'],
       friendRequestsReceived: map['friendRequestsReceived'] != null
           ? List<String>.from(map['friendRequestsReceived'])
@@ -86,6 +88,7 @@ class CustomUser {
       isInvited: map['isInvited'],
       acceptedInvite: map['acceptedInvite'],
       voteStatus: map['voteStatus'],
+      isEmailVerified: map['isEmailVerified'],
       friendRequestTimeStamp: map['friendRequestTimeStamp'],
       friendRequestsReceived: map['friendRequestsReceived'] != null
           ? List<String>.from(map['friendRequestsReceived'])
@@ -112,6 +115,7 @@ class CustomUser {
         'isInvited': isInvited,
         'acceptedInvite': acceptedInvite,
         'voteStatus': voteStatus,
+        'isEmailVerified': isEmailVerified,
         'friendRequestTimeStamp': friendRequestTimeStamp,
         'friendRequestsReceived': friendRequestsReceived,
         'friendRequestsSent': friendRequestsSent,
@@ -130,6 +134,7 @@ class CustomUser {
     bool isInvited,
     bool acceptedInvite,
     bool voteStatus,
+    bool isEmailVerified,
     String friendRequestTimeStamp,
     List<String> friendRequestsReceived,
     List<String> friendRequestsSent,
@@ -147,6 +152,7 @@ class CustomUser {
       isInvited: isInvited ?? this.isInvited,
       acceptedInvite: acceptedInvite ?? this.acceptedInvite,
       voteStatus: voteStatus ?? this.voteStatus,
+      isEmailVerified: isEmailVerified ?? this.isEmailVerified,
       friendRequestTimeStamp:
           friendRequestTimeStamp ?? this.friendRequestTimeStamp,
       friendRequestsReceived:
@@ -160,7 +166,7 @@ class CustomUser {
 
   @override
   String toString() {
-    return '${uid.toString()}, ${name.toString()}, ${country.toString()}, ${state.toString()}, ${city.toString()}, ${imageUrl.toString()}, ${isInvited.toString()}, ${acceptedInvite.toString()}, ${voteStatus.toString()}, ${friendRequestTimeStamp.toString()}, ${friendRequestsReceived.toString()}, ${friendRequestsSent.toString()}, ${friends.toString()}, ${eventInvites.toString()}, ${events.toString()}, ';
+    return 'UID: ${uid.toString()}, Verified?: ${isEmailVerified.toString()}, name: ${name.toString()}, ${country.toString()}, ${state.toString()}, ${city.toString()}, ${imageUrl.toString()}, ${isInvited.toString()}, ${acceptedInvite.toString()}, ${voteStatus.toString()}, ${friendRequestTimeStamp.toString()}, ${friendRequestsReceived.toString()}, ${friendRequestsSent.toString()}, ${friends.toString()}, ${eventInvites.toString()}, ${events.toString()}, ';
   }
 
   @override
@@ -168,25 +174,4 @@ class CustomUser {
       other is CustomUser && documentID == other.documentID;
 
   int get hashCode => documentID.hashCode;
-}
-
-//ToDo: I doubt I'll need userData, as the CustomUser is what's primarily used.
-class UserData {
-  final String uid;
-  final String sugars;
-  final int strength;
-
-  String name;
-  String country;
-  String state;
-  String city;
-
-  UserData(
-      {this.uid,
-      this.sugars,
-      this.strength,
-      this.name,
-      this.city,
-      this.country,
-      this.state});
 }

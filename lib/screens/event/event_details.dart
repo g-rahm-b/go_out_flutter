@@ -49,17 +49,13 @@ class _EventDetailsState extends State<EventDetails> {
             EventDetailsPeople(event),
             EventDetailsVotes(event, eventVotes),
           ];
-          final Color bgColor = Color(0xffF3F3F3);
-          final Color primaryColor = Color(0xffE70F0B);
 
           return Scaffold(
-            backgroundColor: bgColor,
             appBar: AppBar(
-              backgroundColor: Colors.red,
               elevation: 0.0,
               title: Text(
                 event.eventName,
-                style: TextStyle(color: Colors.white, fontSize: 20.0),
+                style: TextStyle(fontSize: 20.0),
               ),
             ),
             body: Container(
@@ -70,22 +66,17 @@ class _EventDetailsState extends State<EventDetails> {
                 BottomNavigationBarItem(
                   icon: Icon(FontAwesomeIcons.infoCircle),
                   label: 'Details',
-                  backgroundColor: primaryColor,
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(FontAwesomeIcons.users),
                   label: 'People',
-                  backgroundColor: primaryColor,
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(FontAwesomeIcons.voteYea),
                   label: 'Votes',
-                  backgroundColor: primaryColor,
                 ),
               ],
               currentIndex: _selectedIndex,
-              selectedItemColor: Colors.white,
-              backgroundColor: primaryColor,
               unselectedItemColor: Colors.grey.shade700,
               onTap: _onItemTapped,
             ),

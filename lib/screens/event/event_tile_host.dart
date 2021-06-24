@@ -1,11 +1,11 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_out_v2/models/event.dart';
 import 'package:go_out_v2/screens/event/event_details.dart';
 import 'package:go_out_v2/screens/event/vote_on_event.dart';
 import 'package:go_out_v2/services/eventDatabase.dart';
+import 'package:go_out_v2/shared/shared_methods.dart';
 
 class EventTileHost extends StatefulWidget {
   final int index;
@@ -60,7 +60,6 @@ class _EventTileHostState extends State<EventTileHost> {
     //Otherwise, load the card normally. If it's deleted, it will be removed from the list
     //The next time the list is loaded, the event won't even load into it.
     return Card(
-      color: Colors.white,
       elevation: 10,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
@@ -85,7 +84,7 @@ class _EventTileHostState extends State<EventTileHost> {
                     Text(
                       '${events[widget.index].eventName}',
                       textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 20, color: Colors.red[900]),
+                      style: TextStyle(fontSize: 20),
                     ),
                     Text(
                       'You are hosting this event.',
@@ -98,12 +97,10 @@ class _EventTileHostState extends State<EventTileHost> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         softWrap: false,
-                        style: TextStyle(color: Colors.black.withOpacity(0.6)),
                       ),
                     ),
                     Text(
-                      'Event on: ${events[widget.index].date}',
-                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                      'Event on: ${convertDate(events[widget.index].date)}',
                     ),
                   ],
                 ),

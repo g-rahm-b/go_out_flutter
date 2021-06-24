@@ -17,10 +17,6 @@ class ProfileDatabase {
   }
 
   Future<void> updateProfileInfo(CustomUser userToUpdate) async {
-    print('Updating the current user');
-    print(userToUpdate.toString());
-    print('User ID is:');
-    print(userToUpdate.uid);
     final fireStoreInstance = FirebaseFirestore.instance;
     await fireStoreInstance.collection('users').doc(userToUpdate.uid).update({
       'name': userToUpdate.name,
@@ -30,20 +26,38 @@ class ProfileDatabase {
     });
   }
 
+  Future<void> updateUserImageUrl(String url, String uid) async {
+    final fireStoreInstance = FirebaseFirestore.instance;
+    await fireStoreInstance
+        .collection('users')
+        .doc(uid)
+        .update({'imageUrl': url});
+  }
+
   Future<void> uploadImageFile(File _image) async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
-    String filePath = '${appDocDir.absolute}/$_image';
+    //String filePath = '${appDocDir.absolute}/$_image';
+    print('uploadImageFile');
     await uploadFile(_image.path);
   }
 
   Future<void> uploadFile(String filePath) async {
     String currentUid = AuthService().fetchUid();
     File file = File(filePath);
-
+    print('uploadFile');
+    print(filePath);
     try {
+      //First, upload the image to the user's URL
       await firebase_storage.FirebaseStorage.instance
           .ref('users/$currentUid/avatar')
           .putFile(file);
+      //Once we've done that, we will need to update the user's imageurl in firestore.
+      firebase_storage.FirebaseStorage.instance
+          .ref('users/$currentUid/avatar')
+          .getDownloadURL()
+          .then((url) {
+        updateUserImageUrl(url, currentUid);
+      });
     } catch (e) {
       print(e);
     }
@@ -51,11 +65,9 @@ class ProfileDatabase {
 
   Future<String> downLoadOtherUsersPhoto(String otherUid) async {
     try {
-      print('======Getting Ref======');
       var ref = firebase_storage.FirebaseStorage.instance
           .ref('users/$otherUid/avatar/');
       if (ref.getData() == null || ref.getMetadata() == null) {
-        print('======Getting lots of nulls======');
         return null;
       } else {
         return ref.getDownloadURL();

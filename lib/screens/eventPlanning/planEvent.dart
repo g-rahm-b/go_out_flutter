@@ -36,25 +36,21 @@ class _PlanEventState extends State<PlanEvent> {
         'Restaurant',
         Icon(
           Icons.restaurant,
-          color: const Color(0xFF167F67),
         )),
     const TypeSelection(
         'Bar',
         Icon(
           Icons.sports_bar,
-          color: const Color(0xFF167F67),
         )),
     const TypeSelection(
         'Pub',
         Icon(
           Icons.event_seat,
-          color: const Color(0xFF167F67),
         )),
     const TypeSelection(
         'Night Club',
         Icon(
           Icons.speaker_group_outlined,
-          color: const Color(0xFF167F67),
         )),
   ];
 
@@ -73,7 +69,6 @@ class _PlanEventState extends State<PlanEvent> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.pink[400],
         elevation: 0.0,
         title: Text('Event Details'),
       ),
@@ -134,9 +129,7 @@ class _PlanEventState extends State<PlanEvent> {
                     hint: Text('Select Event Type'),
                     value: selectedType,
                     style: new TextStyle(
-                        color: Colors.white,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold),
+                        fontSize: 25, fontWeight: FontWeight.bold),
                     onChanged: (TypeSelection value) {
                       setState(() {
                         selectedType = value;
@@ -153,7 +146,6 @@ class _PlanEventState extends State<PlanEvent> {
                               ),
                               Text(
                                 selection.type,
-                                style: TextStyle(color: Colors.black),
                               )
                             ],
                           ));
@@ -168,7 +160,6 @@ class _PlanEventState extends State<PlanEvent> {
                         onPressed: () => _selectDate(context),
                         label: Text('Date'),
                         icon: Icon(Icons.date_range),
-                        backgroundColor: Colors.pink,
                       ),
                       SizedBox(
                         width: 10,
@@ -178,7 +169,6 @@ class _PlanEventState extends State<PlanEvent> {
                         onPressed: () => _selectTime(context),
                         label: Text('Time'),
                         icon: Icon(Icons.access_time),
-                        backgroundColor: Colors.pink,
                       ),
                     ],
                   ),
@@ -257,14 +247,13 @@ class _PlanEventState extends State<PlanEvent> {
                         },
                         label: Text('Invite Friends!'),
                         icon: Icon(Icons.add_circle),
-                        backgroundColor: Colors.pink,
                       ),
                     ],
                   ),
                   SizedBox(height: 15.0),
                   Text(
                     error,
-                    style: TextStyle(color: Colors.black, fontSize: 14.0),
+                    style: TextStyle(fontSize: 14.0),
                   ),
                 ],
               ),

@@ -24,6 +24,8 @@ class DatabaseService {
       'country': updateUser.country,
       'state': updateUser.state,
       'city': updateUser.city,
+      'imageUrl': updateUser.imageUrl,
+      'isEmailVerified': updateUser.isEmailVerified,
       'search_name': updateUser.name.toLowerCase(),
       'userSearch': setSearchParam(userNameForSearch)
     });
@@ -96,6 +98,7 @@ class DatabaseService {
   //Get all of the user's friends.
   Future<List<CustomUser>> getUsersFriends() async {
     try {
+      print('getting friends');
       String currentUid = AuthService().fetchUid();
       final fireStoreInstance = FirebaseFirestore.instance;
       List<CustomUser> usersFriends = [];

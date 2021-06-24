@@ -4,6 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_out_v2/models/event.dart';
 import 'package:go_out_v2/screens/event/event_details.dart';
 import 'package:go_out_v2/screens/event/vote_on_event.dart';
+import 'package:go_out_v2/shared/shared_methods.dart';
+import 'package:intl/intl.dart';
 
 class EventTileGeneral extends StatefulWidget {
   final int index;
@@ -59,7 +61,6 @@ class _EventTileGeneralState extends State<EventTileGeneral> {
       return Container();
     }
     return Card(
-      color: Colors.white,
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
@@ -83,7 +84,7 @@ class _EventTileGeneralState extends State<EventTileGeneral> {
                     Text(
                       '${events[widget.index].eventName}',
                       textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 20, color: Colors.red[900]),
+                      style: TextStyle(fontSize: 20),
                     ),
                     Text(
                       'Event created by ${events[widget.index].host.name}',
@@ -96,12 +97,10 @@ class _EventTileGeneralState extends State<EventTileGeneral> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         softWrap: false,
-                        style: TextStyle(color: Colors.black.withOpacity(0.6)),
                       ),
                     ),
                     Text(
-                      'Event on: ${events[widget.index].date}',
-                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                      'Event on: ${convertDate(events[widget.index].date)}',
                     ),
                   ],
                 ),
@@ -116,7 +115,7 @@ class _EventTileGeneralState extends State<EventTileGeneral> {
                   child: Material(
                     color: Colors.blue, // button color
                     child: InkWell(
-                      splashColor: Colors.green, // splash color
+                      // splash color
                       onTap: () {
                         Navigator.push(
                           context,
@@ -131,11 +130,10 @@ class _EventTileGeneralState extends State<EventTileGeneral> {
                           Icon(
                             Icons.info_outline,
                             size: 30,
-                            color: Colors.white,
                           ), // icon
                           Text(
                             'Event',
-                            style: TextStyle(color: Colors.white, fontSize: 12),
+                            style: TextStyle(fontSize: 12),
                           ), // text
                         ],
                       ),
@@ -150,7 +148,7 @@ class _EventTileGeneralState extends State<EventTileGeneral> {
                     child: Material(
                       color: Colors.purple[900], // button color
                       child: InkWell(
-                        splashColor: Colors.green, // splash color
+                        // splash color
                         onTap: () {
                           if (voteStatus) {
                             showDialog(
@@ -172,7 +170,6 @@ class _EventTileGeneralState extends State<EventTileGeneral> {
                             Icon(
                               Icons.how_to_vote_outlined,
                               size: 30,
-                              color: Colors.white,
                             ), // icon
                             Text(
                               voteButtonString,
@@ -191,7 +188,6 @@ class _EventTileGeneralState extends State<EventTileGeneral> {
                   child: Material(
                     color: Colors.red[900], // button color
                     child: InkWell(
-                      splashColor: Colors.green, // splash color
                       onTap: () {
                         showDialog(
                           context: context,
@@ -235,11 +231,10 @@ class _EventTileGeneralState extends State<EventTileGeneral> {
                           Icon(
                             Icons.cancel_outlined,
                             size: 30,
-                            color: Colors.white,
                           ), // icon
                           Text(
                             'Leave',
-                            style: TextStyle(color: Colors.white, fontSize: 12),
+                            style: TextStyle(fontSize: 12),
                           ), // text
                         ],
                       ),

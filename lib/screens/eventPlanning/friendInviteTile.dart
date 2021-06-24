@@ -110,24 +110,15 @@ class FriendInviteTile extends StatelessWidget {
 
     if (isLiked) {
       //The user is REMOVED from the invite list here
-      print('==============isLiked TRUE===================');
-      print('uninviting user');
-      print(friends[index].uid);
-      print(friends[index].name);
       friends[index].isInvited = false;
-      print(isLiked);
+
       userInviteStatus();
-      print('=================================');
     } else {
       //The user is ADDED to the invite list here
-      print('==============isLiked False===================');
-      print('Inviting user');
-      print(friends[index].uid);
-      print(friends[index].name);
+
       friends[index].isInvited = true;
-      print(isLiked);
+
       userInviteStatus();
-      print('=================================');
     }
     return !isLiked;
   }

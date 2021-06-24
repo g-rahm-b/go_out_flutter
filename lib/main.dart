@@ -18,6 +18,11 @@ class MyApp extends StatelessWidget {
       value: AuthService().user,
       initialData: null,
       child: MaterialApp(
+        title: 'GoOut',
+        theme: ThemeData(
+            brightness: Brightness.dark,
+            visualDensity: VisualDensity(vertical: 0.5, horizontal: 0.5),
+            primarySwatch: Colors.purple),
         home: Wrapper(),
       ),
     );

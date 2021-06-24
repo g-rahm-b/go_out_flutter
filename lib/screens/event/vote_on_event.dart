@@ -54,7 +54,6 @@ class _VoteOnEventState extends State<VoteOnEvent> {
           },
           label: Text("Submit Preference Votes"),
           icon: const Icon(Icons.thumb_up_alt_outlined),
-          backgroundColor: Colors.pink,
         ),
         appBar: new AppBar(
           title: new Text("Place Preferences"),
@@ -64,7 +63,7 @@ class _VoteOnEventState extends State<VoteOnEvent> {
           children: <Widget>[
             for (int index = 0; index < newEvent.places.length; index++)
               Card(
-                color: Colors.grey[(index + 1) * 100],
+                // color: Colors.grey[(index + 1) * 100],
                 elevation: 4.0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),

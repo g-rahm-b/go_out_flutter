@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_out_v2/models/event.dart';
 import 'package:go_out_v2/models/place.dart';
 import 'package:go_out_v2/models/votes.dart';
+import 'package:go_out_v2/shared/shared_methods.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class EventDetailsDetails extends StatefulWidget {
@@ -35,17 +36,13 @@ class _EventDetailsDetailsState extends State<EventDetailsDetails> {
     super.initState();
   }
 
-  final Color bgColor = Color(0xffF3F3F3);
-  final Color primaryColor = Color(0xffE70F0B);
   var titleTextStyle = TextStyle(
-    color: Colors.black87,
     fontSize: 20.0,
     fontWeight: FontWeight.bold,
   );
   var teamNameTextStyle = TextStyle(
     fontSize: 18.0,
     fontWeight: FontWeight.w500,
-    color: Colors.grey.shade800,
   );
 
   void _onMapCreated(GoogleMapController controller) {
@@ -105,7 +102,6 @@ class _EventDetailsDetailsState extends State<EventDetailsDetails> {
                           Text(
                             "Event Location:",
                             style: TextStyle(
-                              color: Colors.grey,
                               fontSize: 14.0,
                             ),
                           ),
@@ -113,7 +109,6 @@ class _EventDetailsDetailsState extends State<EventDetailsDetails> {
                           Text(
                             currentWinner.address,
                             style: TextStyle(
-                              color: Colors.grey,
                               fontSize: 14.0,
                             ),
                           ),
@@ -130,15 +125,13 @@ class _EventDetailsDetailsState extends State<EventDetailsDetails> {
                           Text(
                             "Event date/time:",
                             style: TextStyle(
-                              color: Colors.grey,
                               fontSize: 14.0,
                             ),
                           ),
                           Spacer(),
                           Text(
-                            event.date,
+                            convertDate(event.date),
                             style: TextStyle(
-                              color: Colors.grey,
                               fontSize: 14.0,
                             ),
                           ),
@@ -151,7 +144,6 @@ class _EventDetailsDetailsState extends State<EventDetailsDetails> {
                         children: <Widget>[
                           IconButton(
                             icon: const Icon(Icons.calendar_today_outlined),
-                            color: Colors.red,
                             onPressed: () {},
                           ),
                           ElevatedButton(
@@ -166,15 +158,13 @@ class _EventDetailsDetailsState extends State<EventDetailsDetails> {
                   ],
                 ),
                 Positioned(
-                  top: 190,
+                  top: 160,
                   left: 10.0,
                   child: Container(
-                    color: Colors.red,
-                    padding: const EdgeInsets.all(4.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
                       "Current Winner: ${currentWinner.name}",
                       style: TextStyle(
-                        color: Colors.white,
                         fontSize: 14.0,
                       ),
                     ),

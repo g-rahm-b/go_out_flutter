@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:go_out_v2/models/custom_user.dart';
 import 'package:go_out_v2/screens/friendrequests/friend_requests.dart';
 import 'package:go_out_v2/screens/friendrequests/friend_tile.dart';
-import 'package:go_out_v2/screens/friendrequests/sent_friend_requests_tile.dart';
 import 'package:go_out_v2/screens/friendsearch/friend_search.dart';
 import 'package:go_out_v2/services/database.dart';
 import 'package:go_out_v2/shared/loading.dart';
@@ -45,6 +44,8 @@ class _FriendsListState extends State<FriendsList> {
               (BuildContext context, AsyncSnapshot<List<CustomUser>> snapshot) {
             if (!snapshot.hasData) return Loading();
             List<CustomUser> usersFriends = snapshot.data;
+            print('Snapshot returned:');
+            print(snapshot.data);
 
             return Expanded(
                 child: ListView.builder(

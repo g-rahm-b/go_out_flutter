@@ -68,23 +68,9 @@ class _OtherUsersProfilePageState extends State<OtherUsersProfilePage> {
             Container(
               width: 200.0,
               height: 200.0,
-              child: FutureBuilder(
-                future:
-                    ProfileDatabase().downLoadOtherUsersPhoto(widget.user.uid),
-                builder:
-                    (BuildContext context, AsyncSnapshot<String> snapshot) {
-                  if (!snapshot.hasData && snapshot != null)
-                    return CircleAvatar(
-                      backgroundImage:
-                          AssetImage('assets/default_user_image.png'),
-                      minRadius: 90.0,
-                    );
-                  String profileUrl = snapshot.data;
-                  return CircleAvatar(
-                    backgroundImage: NetworkImage(profileUrl),
-                    minRadius: 120.0,
-                  );
-                },
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(widget.user.imageUrl),
+                radius: 120,
               ),
             ),
             SizedBox(height: 20),
@@ -113,7 +99,6 @@ class _OtherUsersProfilePageState extends State<OtherUsersProfilePage> {
               },
               label: const Text('Remove Friend'),
               icon: const Icon(Icons.cancel_outlined),
-              backgroundColor: Colors.pink,
             ),
             // ListView(
             //   //Todo: add friends in common
@@ -133,23 +118,11 @@ class _OtherUsersProfilePageState extends State<OtherUsersProfilePage> {
           children: [
             SizedBox(height: 20),
             Container(
-              child: FutureBuilder(
-                future:
-                    ProfileDatabase().downLoadOtherUsersPhoto(widget.user.uid),
-                builder:
-                    (BuildContext context, AsyncSnapshot<String> snapshot) {
-                  if (!snapshot.hasData && snapshot != null)
-                    return CircleAvatar(
-                      backgroundImage:
-                          AssetImage('assets/default_user_image.png'),
-                      minRadius: 90.0,
-                    );
-                  String profileUrl = snapshot.data;
-                  return CircleAvatar(
-                    backgroundImage: NetworkImage(profileUrl),
-                    minRadius: 120.0,
-                  );
-                },
+              width: 200.0,
+              height: 200.0,
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(widget.user.imageUrl),
+                radius: 120,
               ),
             ),
             SizedBox(height: 20),
@@ -211,23 +184,11 @@ class _OtherUsersProfilePageState extends State<OtherUsersProfilePage> {
           children: [
             SizedBox(height: 20),
             Container(
-              child: FutureBuilder(
-                future:
-                    ProfileDatabase().downLoadOtherUsersPhoto(widget.user.uid),
-                builder:
-                    (BuildContext context, AsyncSnapshot<String> snapshot) {
-                  if (!snapshot.hasData && snapshot != null)
-                    return CircleAvatar(
-                      backgroundImage:
-                          AssetImage('assets/default_user_image.png'),
-                      minRadius: 90.0,
-                    );
-                  String profileUrl = snapshot.data;
-                  return CircleAvatar(
-                    backgroundImage: NetworkImage(profileUrl),
-                    minRadius: 120.0,
-                  );
-                },
+              width: 200.0,
+              height: 200.0,
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(widget.user.imageUrl),
+                radius: 120,
               ),
             ),
             SizedBox(height: 20),
@@ -255,7 +216,7 @@ class _OtherUsersProfilePageState extends State<OtherUsersProfilePage> {
                 });
               },
               label: const Text('Cancel Sent Friend Request'),
-              icon: const Icon(Icons.thumb_up),
+              icon: const Icon(Icons.cancel_outlined),
               backgroundColor: Colors.pink,
             ),
             // ListView(
@@ -276,26 +237,11 @@ class _OtherUsersProfilePageState extends State<OtherUsersProfilePage> {
           children: [
             SizedBox(height: 20),
             Container(
-              height: 200,
-              width: 200,
-              child: FutureBuilder(
-                future:
-                    ProfileDatabase().downLoadOtherUsersPhoto(widget.user.uid),
-                builder:
-                    (BuildContext context, AsyncSnapshot<String> snapshot) {
-                  if (!snapshot.hasData && snapshot != null)
-                    return CircleAvatar(
-                      backgroundImage:
-                          AssetImage('assets/default_user_image.png'),
-                      minRadius: 90.0,
-                    );
-                  String profileUrl = snapshot.data;
-                  return CircleAvatar(
-                    backgroundImage: NetworkImage(profileUrl),
-                    minRadius: 90.0,
-                    maxRadius: 100.0,
-                  );
-                },
+              width: 200.0,
+              height: 200.0,
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(widget.user.imageUrl),
+                radius: 120,
               ),
             ),
             SizedBox(height: 20),
@@ -317,28 +263,15 @@ class _OtherUsersProfilePageState extends State<OtherUsersProfilePage> {
             SizedBox(height: 20),
             FloatingActionButton.extended(
               onPressed: () {
-                // Add your onPressed code here!
-              },
-              label: const Text('Approve'),
-              icon: const Icon(Icons.thumb_up),
-              backgroundColor: Colors.pink,
-            ),
-            ElevatedButton(
-              onPressed: () {
                 DatabaseService().sendFriendRequest(widget.user);
                 setState(() {
                   //Can do something in here, but the state will be set through the database.
                 });
               },
-              child: Row(
-                // Replace with a Row for horizontal icon + text
-                children: <Widget>[
-                  Icon(Icons.add_circle_outline),
-                  SizedBox(width: 20),
-                  Text('Send Friend Request')
-                ],
-              ),
+              label: const Text('Send Friend Request'),
+              icon: const Icon(Icons.add_circle_outline),
             ),
+
             // ListView(
             //   //Todo: add friends in common
             // )

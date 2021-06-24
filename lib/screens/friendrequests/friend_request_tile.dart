@@ -11,26 +11,64 @@ class FriendRequestTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: 10.0),
-      child: Card(
-        margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-        elevation: 10.0,
-        child: ListTile(
-          leading: CircleAvatar(
-            radius: 40,
-            backgroundImage: AssetImage('assets/default_user_image.png'),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            //ToDo - Send to ANOTHER user's profile page
+            MaterialPageRoute(
+              builder: (context) => OtherUsersProfilePage(user: user),
+            ),
+          );
+        },
+        child: Card(
+          elevation: 4.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
           ),
-          title: Text(user.name),
-          subtitle: Text('from ${user.city}, ${user.state} in ${user.country}'),
-          onTap: () {
-            //navigate to the profile page here
-            Navigator.push(
-              context,
-              //ToDo - Send to ANOTHER user's profile page
-              MaterialPageRoute(
-                builder: (context) => OtherUsersProfilePage(user: user),
-              ),
-            );
-          },
+          child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 10.0, left: 15.0, right: 15.0, bottom: 15),
+              child: Row(
+                children: <Widget>[
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundImage: NetworkImage(user.imageUrl),
+                  ),
+                  const SizedBox(width: 10.0),
+                  SizedBox(
+                    width: 200,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "${user.name}",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                        const SizedBox(height: 5.0),
+                        Text(
+                          '${user.city}, ${user.state}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        const SizedBox(height: 5.0),
+                        Text(
+                          user.country,
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )),
         ),
       ),
     );

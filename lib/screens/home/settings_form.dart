@@ -119,9 +119,10 @@ class MyCustomFormState extends State<MyCustomForm> {
                   );
                   print(userFeedback.toString());
                   DatabaseService().submitFeedback(userFeedback);
-                  //Navigator.of(context).pop();
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text('Submitting Data')));
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Submitting Data'),
+                  ));
                 }
               },
               child: Text('Submit'),
@@ -136,10 +137,6 @@ class MyCustomFormState extends State<MyCustomForm> {
 class LegalText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-    final double itemWidth = size.width;
-
     return new Container(
       child: SizedBox(
         height: 270,

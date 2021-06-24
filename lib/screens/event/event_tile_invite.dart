@@ -4,6 +4,7 @@ import 'package:go_out_v2/models/event.dart';
 import 'package:go_out_v2/screens/event/event_details.dart';
 import 'package:go_out_v2/screens/event/event_tile_general.dart';
 import 'package:go_out_v2/services/eventDatabase.dart';
+import 'package:go_out_v2/shared/shared_methods.dart';
 
 class EventTileInvite extends StatefulWidget {
   final int index;
@@ -51,7 +52,6 @@ class _EventTileInviteState extends State<EventTileInvite> {
     }
 
     return Card(
-      color: Colors.pink[50],
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
@@ -75,7 +75,7 @@ class _EventTileInviteState extends State<EventTileInvite> {
                     Text(
                       '${events[widget.index].eventName}',
                       textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 20, color: Colors.red[900]),
+                      style: TextStyle(fontSize: 20),
                     ),
                     Text(
                       '${events[widget.index].host.name} is inviting you to an event!',
@@ -88,12 +88,10 @@ class _EventTileInviteState extends State<EventTileInvite> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         softWrap: false,
-                        style: TextStyle(color: Colors.black.withOpacity(0.6)),
                       ),
                     ),
                     Text(
-                      'Event on: ${events[widget.index].date}',
-                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                      'Event on: ${convertDate(events[widget.index].date)}',
                     ),
                   ],
                 ),
@@ -108,7 +106,6 @@ class _EventTileInviteState extends State<EventTileInvite> {
                   child: Material(
                     color: Colors.blue, // button color
                     child: InkWell(
-                      splashColor: Colors.green, // splash color
                       onTap: () {
                         Navigator.push(
                           context,
@@ -141,7 +138,6 @@ class _EventTileInviteState extends State<EventTileInvite> {
                   child: Material(
                     color: Colors.green[900], // button color
                     child: InkWell(
-                      splashColor: Colors.green, // splash color
                       onTap: () async {
                         print('Accepted the invite');
                         await EventDatabase()
@@ -172,7 +168,7 @@ class _EventTileInviteState extends State<EventTileInvite> {
                           ), // icon
                           Text(
                             "Accept",
-                            style: TextStyle(color: Colors.white, fontSize: 12),
+                            style: TextStyle(fontSize: 12),
                           ), // text
                         ],
                       ),
@@ -186,7 +182,6 @@ class _EventTileInviteState extends State<EventTileInvite> {
                   child: Material(
                     color: Colors.red[900], // button color
                     child: InkWell(
-                      splashColor: Colors.green, // splash color
                       onTap: () {
                         showDialog(
                             context: context,
@@ -232,7 +227,7 @@ class _EventTileInviteState extends State<EventTileInvite> {
                           ), // icon
                           Text(
                             "Decline",
-                            style: TextStyle(color: Colors.white, fontSize: 12),
+                            style: TextStyle(fontSize: 12),
                           ), // text
                         ],
                       ),

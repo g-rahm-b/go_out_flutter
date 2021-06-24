@@ -13,8 +13,8 @@ class EventDetailsPeople extends StatelessWidget {
         itemBuilder: (context, index) {
           String inviteString = '';
           String votedString = '';
-          Color statusColorInvite = Colors.deepOrange[300];
-          Color statusColorVote = Colors.deepOrange[300];
+          Color statusColorInvite = Colors.red[800];
+          Color statusColorVote = Colors.red[800];
           if (event.invitedUsers[index].acceptedInvite == true) {
             inviteString = 'Of course!';
             statusColorInvite = Colors.lightGreen[500];
@@ -36,30 +36,31 @@ class EventDetailsPeople extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(
                   top: 10.0, left: 15.0, right: 15.0, bottom: 15),
-              child: Row(
+              child: Column(
                 children: <Widget>[
-                  FutureBuilder(
-                    future: ProfileDatabase()
-                        .downLoadOtherUsersPhoto(event.invitedUsers[index].uid),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<String> snapshot) {
-                      if (!snapshot.hasData && snapshot != null)
-                        return CircleAvatar(
-                          backgroundImage:
-                              AssetImage('assets/default_user_image.png'),
-                          minRadius: 35.0,
-                        );
-                      String profileUrl = snapshot.data;
-                      return CircleAvatar(
-                        backgroundImage: NetworkImage(profileUrl),
-                        minRadius: 35.0,
-                      );
-                    },
-                  ),
-                  const SizedBox(width: 10.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
+                  Row(
+                    children: [
+                      FutureBuilder(
+                        future: ProfileDatabase().downLoadOtherUsersPhoto(
+                            event.invitedUsers[index].uid),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<String> snapshot) {
+                          if (!snapshot.hasData && snapshot != null)
+                            return CircleAvatar(
+                              backgroundImage:
+                                  AssetImage('assets/default_user_image.png'),
+                              minRadius: 35.0,
+                            );
+                          String profileUrl = snapshot.data;
+                          return CircleAvatar(
+                            backgroundImage: NetworkImage(profileUrl),
+                            minRadius: 35.0,
+                          );
+                        },
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Text(
                         "${event.invitedUsers[index].name}",
                         style: TextStyle(
@@ -67,7 +68,11 @@ class EventDetailsPeople extends StatelessWidget {
                           fontSize: 24.0,
                         ),
                       ),
-                      const SizedBox(height: 5.0),
+                    ],
+                  ),
+                  const SizedBox(width: 10.0),
+                  Row(
+                    children: <Widget>[
                       Text(
                         "Accepted Invite?",
                         style: TextStyle(
@@ -75,6 +80,22 @@ class EventDetailsPeople extends StatelessWidget {
                           fontSize: 18.0,
                         ),
                       ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Text(
+                        inviteString,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0,
+                            color: statusColorInvite),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      const SizedBox(height: 5.0),
                       const SizedBox(height: 5.0),
                       Text(
                         "User Voted?",
@@ -83,31 +104,9 @@ class EventDetailsPeople extends StatelessWidget {
                           fontSize: 18.0,
                         ),
                       ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 10.0, left: 15.0, right: 15.0),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24.0,
-                        ),
+                      SizedBox(
+                        width: 15,
                       ),
-                      const SizedBox(height: 5.0),
-                      Text(
-                        inviteString,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0,
-                            color: statusColorInvite),
-                      ),
-                      const SizedBox(height: 5.0),
                       Text(
                         votedString,
                         style: TextStyle(

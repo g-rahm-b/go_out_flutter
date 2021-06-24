@@ -30,14 +30,12 @@ class _FriendRequestsState extends State<FriendRequests> {
       appBar: AppBar(
         title: const Text('Friend Requests'),
         centerTitle: true,
-        backgroundColor: Colors.red,
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 60,
-        backgroundColor: Colors.red,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.arrow_circle_up),
@@ -49,7 +47,6 @@ class _FriendRequestsState extends State<FriendRequests> {
           )
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.white,
         onTap: _onItemTapped,
       ),
     );

@@ -42,10 +42,8 @@ class _HomeState extends State<Home> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.brown[50],
       appBar: AppBar(
         title: Text('Go Out'),
-        backgroundColor: Colors.red[400],
         elevation: 0.0,
         actions: <Widget>[
           IconButton(
@@ -83,23 +81,17 @@ class _HomeState extends State<Home> {
               size: 40,
             ),
             label: 'Events',
-            backgroundColor: Colors.red,
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.mapMarkedAlt, size: 40),
             label: 'Plan',
-            backgroundColor: Colors.red,
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.users, size: 40),
             label: 'Friends',
-            backgroundColor: Colors.red,
           ),
         ],
         currentIndex: _selectedIndex,
-        unselectedItemColor: Colors.grey.shade700,
-        selectedItemColor: Colors.white,
-        backgroundColor: Colors.red,
         onTap: _onItemTapped,
       ),
     );

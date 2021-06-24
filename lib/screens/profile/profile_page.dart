@@ -109,14 +109,12 @@ class MapScreenState extends State<ProfilePage>
 
           return new Scaffold(
               body: new Container(
-            color: Colors.white,
             child: new ListView(
               children: <Widget>[
                 Column(
                   children: <Widget>[
                     new Container(
                       height: 250.0,
-                      color: Colors.white,
                       child: new Column(
                         children: <Widget>[
                           Padding(
@@ -141,10 +139,10 @@ class MapScreenState extends State<ProfilePage>
                                     padding: EdgeInsets.only(left: 20, top: 15),
                                     child: new Text('Edit your profile',
                                         style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15.0,
-                                            fontFamily: 'sans-serif-light',
-                                            color: Colors.black)),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15.0,
+                                          fontFamily: 'sans-serif-light',
+                                        )),
                                   )
                                 ],
                               )),
@@ -211,7 +209,6 @@ class MapScreenState extends State<ProfilePage>
                       ),
                     ),
                     new Container(
-                      color: Color(0xffFFFFFF),
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 15.0),
                         child: new Column(
@@ -338,11 +335,6 @@ class MapScreenState extends State<ProfilePage>
                                 },
                                 icon: Icon(Icons.arrow_drop_down_rounded),
                                 label: Text(country),
-                                style: ButtonStyle(backgroundColor:
-                                    MaterialStateProperty.resolveWith<Color>(
-                                        (Set<MaterialState> states) {
-                                  return buttonColor;
-                                })),
                               ),
                             ),
                             Padding(
