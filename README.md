@@ -1,6 +1,6 @@
-# go_out_v2
+# Go Out
 
-Vote where to go with your friends
+Go Out is an application that allows users to search a specified area on a Google Map. They then get a selection of 5 locations (if available), and they can then invite their friends to an event. From there, the users can accept the invitation, and submit their preference vote. As the votes come in, users can add the events to their calendars and get ready to Go Out!
 
 ## Getting Started
 
