@@ -199,38 +199,41 @@ class EventPlanningMapState extends State<EventPlanning> {
                 markers: _markers,
                 onMapCreated: _onMapCreated,
               ),
-              SizedBox(
-                height: 120,
-                child: Slider(
-                    value: radius ?? 250,
-                    activeColor: Colors.red,
-                    inactiveColor: Colors.blue,
-                    min: 100.0,
-                    max: 2500.0,
-                    divisions: 60,
-                    onChanged: (val) => setState(() {
-                          print(_markerLocation);
-                          radius = val;
-                          _setCircles(LatLng(_markerLocation.latitude,
-                              _markerLocation.longitude));
-                        })),
+              Container(
+                padding: EdgeInsets.fromLTRB(0, 60, 0, 0),
+                child: SizedBox(
+                  height: 30,
+                  child: Slider(
+                      value: radius ?? 250,
+                      activeColor: Colors.red,
+                      inactiveColor: Colors.blue,
+                      min: 100.0,
+                      max: 2500.0,
+                      divisions: 60,
+                      onChanged: (val) => setState(() {
+                            radius = val;
+                            _setCircles(LatLng(_markerLocation.latitude,
+                                _markerLocation.longitude));
+                          })),
+                ),
               ),
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.fromLTRB(20, 30, 0, 0),
-                child: Text("Adjust slider to change search radius.",
-                    style: TextStyle(color: Colors.white)),
+                padding: EdgeInsets.fromLTRB(10, 30, 50, 0),
+                child: Flexible(
+                  child: Text(
+                      "Adjust slider to change search radius. Drag and drop the marker to change event search center.",
+                      style: TextStyle(color: Colors.white)),
+                ),
               ),
             ],
           ),
           floatingActionButton: Container(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 60),
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: FloatingActionButton.extended(
                 onPressed: () {
-                  print('');
-                  print('********* Button Press *********');
                   Event newEvent = new Event(
                       lat: _markerLocation.latitude,
                       lng: _markerLocation.longitude,

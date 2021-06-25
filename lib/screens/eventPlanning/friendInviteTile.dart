@@ -46,9 +46,9 @@ class FriendInviteTile extends StatelessWidget {
                 ),
                 const SizedBox(width: 10.0),
                 SizedBox(
-                  width: 200,
+                  width: MediaQuery.of(context).size.width * 0.5,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
                         "${friends[index].name}",

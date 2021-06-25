@@ -14,13 +14,12 @@ class AndroidRegister extends StatefulWidget {
 }
 
 class _AndroidRegisterState extends State<AndroidRegister> {
-  final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           elevation: 0.0,
-          title: Text('Register Go Out (Android)'),
+          title: Text('Register Go Out'),
           actions: <Widget>[
             TextButton.icon(
                 onPressed: () {
@@ -99,22 +98,23 @@ class RegistrationOptionsState extends State<RegistrationOptions> {
                 fontSize: 16,
               ),
             )),
-        OutlinedButton.icon(
-            style: ButtonStyle(
-              shape: MaterialStateProperty.all(StadiumBorder()),
-              //padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12)
-            ),
-            onPressed: _handleSignIn,
-            icon: FaIcon(
-              FontAwesomeIcons.apple,
-            ),
-            label: Text(
-              'Register with Apple',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            )),
+        //TODO: Implement the apple registration when you work on the iOS release.
+        // OutlinedButton.icon(
+        //     style: ButtonStyle(
+        //       shape: MaterialStateProperty.all(StadiumBorder()),
+        //       //padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12)
+        //     ),
+        //     onPressed: _handleSignIn,
+        //     icon: FaIcon(
+        //       FontAwesomeIcons.apple,
+        //     ),
+        //     label: Text(
+        //       'Register with Apple',
+        //       style: TextStyle(
+        //         fontWeight: FontWeight.bold,
+        //         fontSize: 16,
+        //       ),
+        //     )),
       ],
     );
   }

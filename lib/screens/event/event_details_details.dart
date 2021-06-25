@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:go_out_v2/models/event.dart';
 import 'package:go_out_v2/models/place.dart';
 import 'package:go_out_v2/models/votes.dart';
+import 'package:go_out_v2/shared/addToCalendar.dart';
 import 'package:go_out_v2/shared/shared_methods.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 
 class EventDetailsDetails extends StatefulWidget {
   final Event event;
@@ -23,6 +25,7 @@ class _EventDetailsDetailsState extends State<EventDetailsDetails> {
   List<Votes> eventVotes;
   Place currentWinner = new Place();
   Image winnerPhoto;
+  bool noVotesYet = false;
   String photoUrl;
   GoogleMapController _controller;
   Set<Marker> _markers = HashSet<Marker>();
@@ -32,12 +35,16 @@ class _EventDetailsDetailsState extends State<EventDetailsDetails> {
     event = this.event;
     eventVotes = this.eventVotes;
     currentWinner = getWinningPlace(event, eventVotes);
+
+    if (currentWinner.name == 'No votes have been cast, yet!') {
+      noVotesYet = true;
+    }
     photoUrl = getUrl(currentWinner.photoReference);
     super.initState();
   }
 
   var titleTextStyle = TextStyle(
-    fontSize: 20.0,
+    fontSize: 16.0,
     fontWeight: FontWeight.bold,
   );
   var teamNameTextStyle = TextStyle(
@@ -64,9 +71,9 @@ class _EventDetailsDetailsState extends State<EventDetailsDetails> {
   Widget build(BuildContext context) {
     return Container(
       child: ListView(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(5.0),
         children: <Widget>[
-          const SizedBox(height: 16.0),
+          const SizedBox(height: 5.0),
           Card(
             elevation: 4.0,
             shape: RoundedRectangleBorder(
@@ -76,100 +83,54 @@ class _EventDetailsDetailsState extends State<EventDetailsDetails> {
               children: <Widget>[
                 Column(
                   children: <Widget>[
-                    Container(
-                      height: 200.0,
-                      child: FadeInImage(
-                        image: NetworkImage(photoUrl),
-                        placeholder: AssetImage("assets/pub.jpg"),
-                        imageErrorBuilder: (context, error, stackTrace) {
-                          return Image.asset('assets/pub.jpg',
-                              fit: BoxFit.fill);
-                        },
-                        fit: BoxFit.fitWidth,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        "Going to a ${event.type}",
-                        style: titleTextStyle,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                      child: Row(
-                        children: <Widget>[
-                          Text(
-                            "Event Location:",
-                            style: TextStyle(
-                              fontSize: 14.0,
-                            ),
+                    getNetworkOrAssetImage(noVotesYet),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Going to a ${event.type}",
+                          textAlign: TextAlign.left,
+                          style: titleTextStyle,
+                        ),
+                        Text(
+                          "Current Winner: ${currentWinner.name}",
+                          style: TextStyle(
+                            color: Colors.purpleAccent,
+                            fontSize: 16.0,
                           ),
-                          Spacer(),
-                          Text(
-                            currentWinner.address,
-                            style: TextStyle(
-                              fontSize: 14.0,
-                            ),
+                        ),
+                        Text(
+                          "Event Location: ${currentWinner.address}",
+                          style: TextStyle(
+                            fontSize: 14.0,
                           ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                      child: Row(
-                        children: <Widget>[
-                          Text(
-                            "Event date/time:",
-                            style: TextStyle(
-                              fontSize: 14.0,
-                            ),
+                        ),
+                        Text(
+                          "Occurring on: ${convertDate(event.date)}",
+                          style: TextStyle(
+                            fontSize: 14.0,
                           ),
-                          Spacer(),
-                          Text(
-                            convertDate(event.date),
-                            style: TextStyle(
-                              fontSize: 14.0,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 60.0),
-                      child: Row(
-                        children: <Widget>[
-                          IconButton(
-                            icon: const Icon(Icons.calendar_today_outlined),
-                            onPressed: () {},
-                          ),
-                          ElevatedButton(
-                              onPressed: () {
-                                //ToDo: If all users havent voted, add a pop-up asking them if they want to proceed, because the winning place might change after they add it to their calendar
-                              },
-                              child: Text('Add event to Calendar'))
-                        ],
-                      ),
+                    Row(
+                      children: <Widget>[
+                        IconButton(
+                          icon: const Icon(Icons.calendar_today_outlined),
+                          onPressed: () {
+                            addEventToCalendar(event);
+                          },
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              //TODO: If all users havent voted, add a pop-up asking them if they want to proceed, because the winning place might change after they add it to their calendar
+                              addEventToCalendar(event);
+                            },
+                            child: Text('Add event to Calendar'))
+                      ],
                     ),
-                    const SizedBox(height: 20.0),
                   ],
                 ),
-                Positioned(
-                  top: 160,
-                  left: 10.0,
-                  child: Container(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Current Winner: ${currentWinner.name}",
-                      style: TextStyle(
-                        fontSize: 14.0,
-                      ),
-                    ),
-                  ),
-                )
               ],
             ),
           ),
@@ -177,7 +138,7 @@ class _EventDetailsDetailsState extends State<EventDetailsDetails> {
           Divider(),
           const SizedBox(height: 5.0),
           SizedBox(
-            height: 250,
+            height: 200,
             child: GoogleMap(
               initialCameraPosition: CameraPosition(
                   target: LatLng(event.lat, event.lng), zoom: 14.0),
@@ -189,23 +150,6 @@ class _EventDetailsDetailsState extends State<EventDetailsDetails> {
               onMapCreated: _onMapCreated,
             ),
           ),
-          const SizedBox(height: 10.0),
-          // ListTile(
-          //   title: Text(
-          //     "Cosgrove hat-tricks sparks Aberdeen",
-          //     style: titleTextStyle,
-          //   ),
-          //   subtitle: Text("Yesterday, 7:02 PM | Aberdeen"),
-          //   trailing: Container(
-          //     width: 80.0,
-          //     decoration: BoxDecoration(
-          //         borderRadius: BorderRadius.circular(10.0),
-          //         image: DecorationImage(
-          //           image: AssetImage('assets/pub.jpg'),
-          //           fit: BoxFit.cover,
-          //         )),
-          //   ),
-          // ),
         ],
       ),
     );
@@ -231,6 +175,92 @@ class _EventDetailsDetailsState extends State<EventDetailsDetails> {
               InfoWindow(title: element.name, snippet: element.address)));
       count++;
     });
+  }
+
+  void addEventToCalendar(Event event) {
+    //Assume everyone has voted
+    bool hasAllVoted = true;
+    //Go through, if somebody hasn't voted, then we want to notify the user that the results may change
+
+    for (int i = 0; i < event.invitedUsers.length; i++) {
+      if (event.invitedUsers[i].voteStatus == false) {
+        hasAllVoted = false;
+        break;
+      }
+    }
+
+    //I am a fool and already made the type 'Event', need to send this to a seperate Dart file that can import the calendar version of Event.
+    String title = event.eventName;
+    String description =
+        "GoOut Event! Going to a ${event.type}. Most people want to check out ${currentWinner.name}";
+    String location = currentWinner.address;
+    DateTime startDate = new DateFormat("yyyy-MM-dd hh").parse(event.date);
+    DateTime endDate = startDate.add(const Duration(hours: 2));
+
+    if (hasAllVoted) {
+      addToCalendar(title, description, location, startDate, endDate);
+    } else {
+      print('I ame here');
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+            title: const Text('Not everyone has voted!'),
+            content: new Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                    "Not all invited users have voted! If they place a vote after you add this event to your calendar, there is a chance the final location may change before the event starts."),
+              ],
+            ),
+            actions: <Widget>[
+              new ElevatedButton(
+                onPressed: () async {
+                  addToCalendar(
+                      title, description, location, startDate, endDate);
+
+                  Navigator.pop(context);
+                },
+                child: const Text('Continue.'),
+              ),
+              new ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Go back.'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  getNetworkOrAssetImage(bool noVotesYet) {
+    print('The value of noVotesYet is: ');
+    print(noVotesYet.toString());
+    if (noVotesYet) {
+      return Container(
+        padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+        height: 200.0,
+        child: FadeInImage(
+          image: AssetImage("assets/placeholder_restaurant.jpg"),
+          placeholder: AssetImage("assets/placeholder_restaurant.jpg"),
+          fit: BoxFit.fitWidth,
+        ),
+      );
+    } else {
+      return Container(
+        padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+        height: 200.0,
+        child: FadeInImage(
+          image: NetworkImage(photoUrl),
+          placeholder: AssetImage("assets/placeholder_restaurant.jpg"),
+          fit: BoxFit.fitWidth,
+        ),
+      );
+    }
   }
 }
 
@@ -267,7 +297,6 @@ Place getWinningPlace(Event event, List<Votes> eventVotes) {
   for (int i = 0; i < eventVotes.length; i++) {
     //First, see if there have been any votes at all.
     if (eventVotes[i].vote == -1) {
-      print('Votes dont exist');
       Place noVotesPlace = Place(
           address: 'To be determined',
           name: 'No votes have been cast, yet!',

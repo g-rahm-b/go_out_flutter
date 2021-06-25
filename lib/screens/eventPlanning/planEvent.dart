@@ -210,7 +210,6 @@ class _PlanEventState extends State<PlanEvent> {
                                 .then((value) {
                               //If there's no results, want to inform user
                               if (value.googleLink == 'Empty') {
-                                print('there are no results');
                                 return showDialog(
                                     context: context,
                                     builder: (context) {
@@ -218,7 +217,7 @@ class _PlanEventState extends State<PlanEvent> {
                                         title:
                                             Text('No ${tempEvent.type}s Here'),
                                         content: Text(
-                                            'There are no places in your search area that match your event criteria. Please go back and either expand your search radius, change your search location, or change your event type.'),
+                                            'There are no places in your search area that match your event criteria.\nIs your search during a typical opening time? \nPlease go back and either expand your search radius, change your search location, or change your event type.'),
                                         actions: <Widget>[
                                           ElevatedButton(
                                             child: Text('OK'),
