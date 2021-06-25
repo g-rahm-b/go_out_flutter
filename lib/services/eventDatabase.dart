@@ -16,6 +16,7 @@ class EventDatabase {
       newEvent.searchRadius.toInt(),
       keyword: newEvent.type,
     );
+    print(result);
     if (result != null &&
         result.status != 'ZERO_RESULTS' &&
         result.results != null) {
@@ -354,6 +355,7 @@ class EventDatabase {
         });
       }).catchError((error) {
         print("Failed to update user invite status");
+        print(error);
         //Unsuccessful
         //ToDo: Make sure return is actually async
         return 0;

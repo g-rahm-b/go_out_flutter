@@ -20,24 +20,40 @@ class _FriendsListState extends State<FriendsList> {
     return Column(
       children: <Widget>[
         SizedBox(height: 15.0),
-
-        //Buttons for either finding friends or looking at requests.
-        Wrap(children: <Widget>[
-          ElevatedButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => FriendSearch()));
-              },
-              child: Text('Find New Friends')),
-          SizedBox(width: 10.0),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => FriendRequests()));
-              },
-              child: Text('Pending Friend Requests')),
-        ]),
-
+        Container(
+          margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => FriendSearch()));
+                  },
+                  child: Text(
+                    "Find New Friends!",
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: ElevatedButton(
+                  child: Text("View Friend Requests!"),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => FriendRequests()));
+                  },
+                ),
+              )
+            ],
+          ),
+        ),
         FutureBuilder(
           future: DatabaseService().getUsersFriends(),
           builder:
@@ -69,7 +85,7 @@ class _FriendsListState extends State<FriendsList> {
                           ));
                     }));
           },
-        )
+        ),
       ],
     );
   }

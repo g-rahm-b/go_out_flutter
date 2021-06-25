@@ -28,8 +28,7 @@ class _PlanEventInviteFriendsState extends State<PlanEventInviteFriends> {
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.pink[400],
-          elevation: 0.0,
+          elevation: 10.0,
           title: Text('Invite your friends'),
         ),
         body: FutureBuilder(
@@ -48,8 +47,12 @@ class _PlanEventInviteFriendsState extends State<PlanEventInviteFriends> {
               });
               return Column(
                 children: [
+                  //Keep the size such that the button will fit
                   ConstrainedBox(
-                    constraints: BoxConstraints(maxHeight: 500, minHeight: 400),
+                    constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height * 0.75,
+                        minHeight: MediaQuery.of(context).size.width * 0.8),
+                    //Build the list of all the invite-able friends.
                     child: ListView.builder(
                         scrollDirection: Axis.vertical,
                         itemCount: usersFriends.length,
@@ -66,7 +69,6 @@ class _PlanEventInviteFriendsState extends State<PlanEventInviteFriends> {
                   FloatingActionButton.extended(
                     label: Text("Invite Selected Friends and Create Event"),
                     icon: Icon(FontAwesomeIcons.chevronCircleRight),
-                    backgroundColor: Colors.pink,
                     onPressed: () async {
                       //This means the user is satisfied with who they invited.
                       //Need to add them to the event.

@@ -57,66 +57,81 @@ class _EventDetailsVotesState extends State<EventDetailsVotes> {
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: <Widget>[
                   CircleAvatar(
-                    minRadius: 40.0,
-                    maxRadius: 50.0,
+                    minRadius: 37.0,
+                    maxRadius: 47.0,
                     backgroundImage: NetworkImage(photoUrl),
                   ),
-                  const SizedBox(width: 20.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "${event.places[index].name}",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                        ),
-                      ),
-                      const SizedBox(height: 5.0),
-                      Text(
-                        "${event.places[index].address}",
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 12.0,
-                        ),
-                      ),
-                      Text(
-                        "Rating of ${event.places[index].rating}/5.0",
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 12.0,
-                        ),
-                      ),
-                      Text(
-                        "Pricing of ${event.places[index].pricing}/5.0",
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 12.0,
-                        ),
-                      ),
-                      if (votesExist)
+                  const SizedBox(width: 10.0),
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
                         Text(
-                          //The list should be sorted at this point, so the index will reflect the 'position'
-                          "Current vote ranking is: ${index + 1}",
+                          "${event.places[index].name}",
                           style: TextStyle(
-                            fontWeight: FontWeight.w300,
+                            fontWeight: FontWeight.bold,
                             fontSize: 16.0,
                           ),
+                          overflow: TextOverflow.fade,
+                          maxLines: 1,
+                          softWrap: false,
                         ),
-                      if (!votesExist)
+                        const SizedBox(height: 5.0),
                         Text(
-                          //The list should be sorted at this point, so the index will reflect the 'position'
-                          "No votes yet.",
+                          "${event.places[index].address}",
                           style: TextStyle(
-                            fontWeight: FontWeight.w300,
-                            fontSize: 16.0,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 12.0,
                           ),
+                          overflow: TextOverflow.fade,
+                          maxLines: 1,
+                          softWrap: false,
                         ),
-                    ],
+                        Text(
+                          "Rating of ${event.places[index].rating}/5.0",
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 12.0,
+                          ),
+                          overflow: TextOverflow.fade,
+                          maxLines: 1,
+                          softWrap: false,
+                        ),
+                        Text(
+                          "Pricing of ${event.places[index].pricing}/5.0",
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 12.0,
+                          ),
+                          overflow: TextOverflow.fade,
+                          maxLines: 1,
+                          softWrap: false,
+                        ),
+                        if (votesExist)
+                          Text(
+                            //The list should be sorted at this point, so the index will reflect the 'position'
+                            "Current vote ranking is: ${index + 1}",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                        if (!votesExist)
+                          Text(
+                            //The list should be sorted at this point, so the index will reflect the 'position'
+                            "No votes yet.",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
                 ],
               ),

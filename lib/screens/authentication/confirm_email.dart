@@ -43,8 +43,8 @@ class _ConfirmEmailState extends State<ConfirmEmail> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'An email has just been sent to you! Click the link provided to complete registration and verify your email address. After verification, come back here and get ready to go out!',
-                style: TextStyle(color: Colors.black, fontSize: 18),
+                'An email has just been sent to you! Click the link provided to complete registration and verify your email address. After verification, come back here and get ready to go out!\n\n It might take a little while for the verification to complete.\n',
+                style: TextStyle(fontSize: 18),
               ),
               ElevatedButton.icon(
                 onPressed: () {

@@ -28,7 +28,7 @@ dependencies:
   google_maps_flutter: ^2.0.2
   cloud_firestore: ^1.0.3
   firebase_auth: "^1.0.1"
-  
+  add_2_calendar: ^2.1.0
   provider: ^5.0.0
   english_words: ^3.1.5
   flutter_spinkit: "^4.1.2"
@@ -57,8 +57,16 @@ dependencies:
   cupertino_icons: ^1.0.0
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.8.0"
   flutter_test:
     sdk: flutter
+
+
+flutter_icons:
+  image_path: "assets/icon/icon.png"
+  android: true
+  ios: true
+  
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

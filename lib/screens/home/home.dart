@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_out_v2/screens/home/eventPlanning.dart';
 import 'package:go_out_v2/screens/home/event_list.dart';
 import 'package:go_out_v2/screens/home/friends_list.dart';
-import 'package:go_out_v2/screens/home/settings_form.dart';
+import 'package:go_out_v2/screens/home/info_form.dart';
 import 'package:go_out_v2/screens/profile/profile_page.dart';
 import 'package:go_out_v2/services/auth.dart';
 
@@ -30,15 +30,10 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     void _showSettingsPanel() {
-      showModalBottomSheet(
-          context: context,
-          builder: (context) {
-            return Container(
-              height: 1000,
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
-              child: SettingsForm(),
-            );
-          });
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => InfoForm()),
+      );
     }
 
     return Scaffold(
@@ -49,6 +44,9 @@ class _HomeState extends State<Home> {
           IconButton(
             onPressed: () async {
               await _auth.signOut();
+              //Sometimes it gets locked up. Just force the app to push to the first page.
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/', (Route<dynamic> route) => false);
             },
             icon: Icon(Icons.logout),
           ),

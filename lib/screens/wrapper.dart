@@ -25,12 +25,11 @@ class _WrapperState extends State<Wrapper> {
           if (user != null && user.emailVerified) {
             return Home();
           } else if (user != null && !user.emailVerified) {
-            return Home();
-            // return ConfirmEmail(onEmailConfirmed: () {
-            //   setState(() {
-            //     //This will notify the wrapper to rebuild and check if the email is confirmed.
-            //   });
-            // });
+            return ConfirmEmail(onEmailConfirmed: () {
+              setState(() {
+                //This will notify the wrapper to rebuild and check if the email is confirmed.
+              });
+            });
           } else {
             return Authenticate();
           }
