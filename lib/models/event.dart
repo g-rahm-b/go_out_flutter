@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:go_out_v2/models/custom_user.dart';
-import 'package:go_out_v2/models/place.dart';
+import 'package:go_out/models/custom_user.dart';
+import 'package:go_out/models/place.dart';
 
 class Event {
   final String date;

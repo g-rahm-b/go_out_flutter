@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_out_v2/models/event.dart';
-import 'package:go_out_v2/screens/event/event_details.dart';
-import 'package:go_out_v2/screens/event/vote_on_event.dart';
-import 'package:go_out_v2/shared/shared_methods.dart';
+import 'package:go_out/models/event.dart';
+import 'package:go_out/screens/event/event_details.dart';
+import 'package:go_out/screens/event/vote_on_event.dart';
+import 'package:go_out/shared/shared_methods.dart';
 import 'package:intl/intl.dart';
 
 class EventTileGeneral extends StatefulWidget {

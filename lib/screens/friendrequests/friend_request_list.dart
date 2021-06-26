@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_out_v2/models/custom_user.dart';
-import 'package:go_out_v2/screens/friendrequests/friend_request_tile.dart';
-import 'package:go_out_v2/services/database.dart';
-import 'package:go_out_v2/shared/loading.dart';
+import 'package:go_out/models/custom_user.dart';
+import 'package:go_out/screens/friendrequests/friend_request_tile.dart';
+import 'package:go_out/services/database.dart';
+import 'package:go_out/shared/loading.dart';
 
 class FriendRequestList extends StatefulWidget {
   @override

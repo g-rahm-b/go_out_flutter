@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.go_out_v2">
+    package="com.graemebernier.go_out">
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
          In most cases you can leave this as-is, but you if you want to provide
@@ -12,11 +12,12 @@
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
+    
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="go_out_v2"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Go Out"
+        android:icon="@mipmap/ic_goout_logo">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -53,7 +54,7 @@
             android:name="flutterEmbedding"
             android:value="2" />
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBNhDIQIR0--zu_pBd5riDpgeK28R9AWEU"/>
+            android:value="api_key"/>
             
     </application>
 </manifest>

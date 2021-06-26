@@ -3,9 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:go_out_v2/models/custom_user.dart';
-import 'package:go_out_v2/services/database.dart';
-import 'package:go_out_v2/services/profileDatabase.dart';
+import 'package:go_out/models/custom_user.dart';
+import 'package:go_out/services/database.dart';
+import 'package:go_out/services/profileDatabase.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:path_provider/path_provider.dart';
 

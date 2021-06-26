@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_out_v2/models/custom_user.dart';
-import 'package:go_out_v2/services/database.dart';
-import 'package:go_out_v2/services/profileDatabase.dart';
-import 'package:go_out_v2/shared/loading.dart';
+import 'package:go_out/models/custom_user.dart';
+import 'package:go_out/services/database.dart';
+import 'package:go_out/services/profileDatabase.dart';
+import 'package:go_out/shared/loading.dart';
 
 class OtherUsersProfilePage extends StatefulWidget {
   CustomUser user = new CustomUser();

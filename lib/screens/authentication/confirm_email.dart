@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:go_out_v2/services/auth.dart';
+import 'package:go_out/services/auth.dart';
 
 class ConfirmEmail extends StatefulWidget {
   final VoidCallback onEmailConfirmed;

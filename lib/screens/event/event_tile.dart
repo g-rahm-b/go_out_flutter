@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_out_v2/services/auth.dart';
-import 'package:go_out_v2/models/event.dart';
-import 'package:go_out_v2/screens/event/event_tile_host.dart';
-import 'package:go_out_v2/screens/event/event_tile_invite.dart';
-import 'package:go_out_v2/screens/event/event_tile_general.dart';
+import 'package:go_out/services/auth.dart';
+import 'package:go_out/models/event.dart';
+import 'package:go_out/screens/event/event_tile_host.dart';
+import 'package:go_out/screens/event/event_tile_invite.dart';
+import 'package:go_out/screens/event/event_tile_general.dart';
 
 class EventTile extends StatelessWidget {
   final int index;

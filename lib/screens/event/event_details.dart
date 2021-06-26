@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_out_v2/models/event.dart';
-import 'package:go_out_v2/models/votes.dart';
-import 'package:go_out_v2/screens/event/event_details_details.dart';
-import 'package:go_out_v2/screens/event/event_details_people.dart';
-import 'package:go_out_v2/screens/event/event_details_votes.dart';
-import 'package:go_out_v2/services/eventDatabase.dart';
-import 'package:go_out_v2/shared/loading.dart';
+import 'package:go_out/models/event.dart';
+import 'package:go_out/models/votes.dart';
+import 'package:go_out/screens/event/event_details_details.dart';
+import 'package:go_out/screens/event/event_details_people.dart';
+import 'package:go_out/screens/event/event_details_votes.dart';
+import 'package:go_out/services/eventDatabase.dart';
+import 'package:go_out/shared/loading.dart';
 
 class EventDetails extends StatefulWidget {
   final Event event;

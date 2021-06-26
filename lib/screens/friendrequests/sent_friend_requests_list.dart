@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_out_v2/models/custom_user.dart';
-import 'package:go_out_v2/screens/friendrequests/sent_friend_requests_tile.dart';
-import 'package:go_out_v2/services/database.dart';
-import 'package:go_out_v2/shared/loading.dart';
+import 'package:go_out/models/custom_user.dart';
+import 'package:go_out/screens/friendrequests/sent_friend_requests_tile.dart';
+import 'package:go_out/services/database.dart';
+import 'package:go_out/shared/loading.dart';
 
 class SentFriendRequestList extends StatefulWidget {
   @override
@@ -11,20 +11,19 @@ class SentFriendRequestList extends StatefulWidget {
 }
 
 class _SentFriendRequestListState extends State<SentFriendRequestList> {
-
   @override
   Widget build(BuildContext context) {
-
     return FutureBuilder(
       future: DatabaseService().userSentFriendRequests(),
-      builder: (BuildContext context, AsyncSnapshot<List<CustomUser>> snapshot) {
-        if(!snapshot.hasData) return Loading();
-        List <CustomUser> sentFriendRequests = snapshot.data;
+      builder:
+          (BuildContext context, AsyncSnapshot<List<CustomUser>> snapshot) {
+        if (!snapshot.hasData) return Loading();
+        List<CustomUser> sentFriendRequests = snapshot.data;
 
         return Expanded(
           child: ListView.builder(
               itemCount: sentFriendRequests.length,
-              itemBuilder: (context, index){
+              itemBuilder: (context, index) {
                 return Dismissible(
                     key: Key(UniqueKey().toString()),
                     direction: DismissDirection.endToStart,
@@ -33,27 +32,25 @@ class _SentFriendRequestListState extends State<SentFriendRequestList> {
                     onDismissed: (direction) {
                       // Remove the item from the data source.
                       setState(() {
-                        DatabaseService().cancelSentFriendRequest(sentFriendRequests[index]);
+                        DatabaseService()
+                            .cancelSentFriendRequest(sentFriendRequests[index]);
                         sentFriendRequests.removeAt(index);
                       });
                     },
-                  child: SentFriendRequestTile(
-                    //user: sentFriendRequests[index]
-                    users: sentFriendRequests,
-                    index: index,
-                  )
-                );
+                    child: SentFriendRequestTile(
+                      //user: sentFriendRequests[index]
+                      users: sentFriendRequests,
+                      index: index,
+                    ));
               }),
         );
       },
     );
   }
 
-  removeCancelledFriendRequest(CustomUser userToRemove){
+  removeCancelledFriendRequest(CustomUser userToRemove) {
     print('Removing user: ${userToRemove.name}');
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   Widget slideLeftBackground() {
@@ -113,5 +110,4 @@ class _SentFriendRequestListState extends State<SentFriendRequestList> {
       ),
     );
   }
-
 }

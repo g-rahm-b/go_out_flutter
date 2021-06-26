@@ -1,7 +1,7 @@
 //ToDo: Implement friend search
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_out_v2/shared/CustomSearchBar.dart';
+import 'package:go_out/shared/CustomSearchBar.dart';
 
 class FriendSearch extends StatefulWidget {
   @override

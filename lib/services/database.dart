@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:go_out_v2/models/user_feedback.dart';
-import 'package:go_out_v2/models/custom_user.dart';
-import 'package:go_out_v2/services/auth.dart';
+import 'package:go_out/models/user_feedback.dart';
+import 'package:go_out/models/custom_user.dart';
+import 'package:go_out/services/auth.dart';
 
 //All methods used to interact with Database
 class DatabaseService {

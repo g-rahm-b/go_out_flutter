@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:go_out_v2/models/custom_user.dart';
+import 'package:go_out/models/custom_user.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
-import 'package:go_out_v2/services/auth.dart';
+import 'package:go_out/services/auth.dart';
 
 class ProfileDatabase {
   Future<CustomUser> fetchFullUserProfile() async {

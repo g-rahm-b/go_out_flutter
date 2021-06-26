@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_out_v2/models/event.dart';
-import 'package:go_out_v2/services/profileDatabase.dart';
+import 'package:go_out/models/event.dart';
+import 'package:go_out/services/profileDatabase.dart';
 
 class EventDetailsPeople extends StatelessWidget {
   final Event event;

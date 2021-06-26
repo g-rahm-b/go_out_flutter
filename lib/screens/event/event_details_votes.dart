@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_out_v2/models/event.dart';
-import 'package:go_out_v2/models/votes.dart';
-import 'package:go_out_v2/credentials.dart';
+import 'package:go_out/models/event.dart';
+import 'package:go_out/models/votes.dart';
+import 'package:go_out/credentials.dart';
 
 class EventDetailsVotes extends StatefulWidget {
   final Event event;

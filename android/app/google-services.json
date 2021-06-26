@@ -48,6 +48,58 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:100792026755:android:eb3d64c12b343049623db6",
+        "android_client_info": {
+          "package_name": "com.graemebernier.go_out"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "100792026755-jb4j3q2gflo1plt80fvetvrmihtcu8o8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.graemebernier.go_out",
+            "certificate_hash": "dcb3f18fea5a179b78a0d35625d609d5542184bd"
+          }
+        },
+        {
+          "client_id": "100792026755-jnr07tmekvs4nd8jf9iabiq8iej3qfmf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.graemebernier.go_out",
+            "certificate_hash": "7bb1e5cee41a4652dccbed0dcfcc30d73a6de977"
+          }
+        },
+        {
+          "client_id": "100792026755-qfrlorsksjmj96l4k33a5de877901t7i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNhDIQIR0--zu_pBd5riDpgeK28R9AWEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "100792026755-qfrlorsksjmj96l4k33a5de877901t7i.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "100792026755-01vvogantjhjqsfrej3f8vbfb1ksgnss.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.goOutV2"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

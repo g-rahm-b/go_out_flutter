@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_out_v2/screens/authentication/register.dart';
-import 'package:go_out_v2/services/auth.dart';
+import 'package:go_out/screens/authentication/register.dart';
+import 'package:go_out/services/auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AndroidRegister extends StatefulWidget {

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_out_v2/screens/home/eventPlanning.dart';
-import 'package:go_out_v2/screens/home/event_list.dart';
-import 'package:go_out_v2/screens/home/friends_list.dart';
-import 'package:go_out_v2/screens/home/info_form.dart';
-import 'package:go_out_v2/screens/profile/profile_page.dart';
-import 'package:go_out_v2/services/auth.dart';
+import 'package:go_out/screens/home/eventPlanning.dart';
+import 'package:go_out/screens/home/event_list.dart';
+import 'package:go_out/screens/home/friends_list.dart';
+import 'package:go_out/screens/home/info_form.dart';
+import 'package:go_out/screens/profile/profile_page.dart';
+import 'package:go_out/services/auth.dart';
 
 class Home extends StatefulWidget {
   @override

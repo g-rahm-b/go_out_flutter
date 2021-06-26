@@ -2,8 +2,8 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_out_v2/screens/friendrequests/friend_request_list.dart';
-import 'package:go_out_v2/screens/friendrequests/sent_friend_requests_list.dart';
+import 'package:go_out/screens/friendrequests/friend_request_list.dart';
+import 'package:go_out/screens/friendrequests/sent_friend_requests_list.dart';
 
 class FriendRequests extends StatefulWidget {
   @override
