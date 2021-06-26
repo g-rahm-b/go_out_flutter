@@ -2,7 +2,11 @@
 
 Go Out is an application that allows users to search a specified area on a Google Map. They then get a selection of 5 locations (if available), and they can then invite their friends to an event. From there, the users can accept the invitation, and submit their preference vote. As the votes come in, users can add the events to their calendars and get ready to Go Out!
 
-![alt text](gs://go-out-2-304300.appspot.com/github_pictures/GoOutEvent.png)
+
+<img src="https://github.com/g-rahm-b/go_out_flutter/blob/master/images/GoOutLogin.png?raw=true" width="300"> <img src="https://github.com/g-rahm-b/go_out_flutter/blob/master/images/GoOutMap.png?raw=true" width="300"> <img src="https://github.com/g-rahm-b/go_out_flutter/blob/master/images/GoOutPlanning.png?raw=true" width="300"> 
+
+<img src="https://github.com/g-rahm-b/go_out_flutter/blob/master/images/GoOutVoting.png?raw=true" width="300"> <img src="https://github.com/g-rahm-b/go_out_flutter/blob/master/images/GoOutEvent.png?raw=true" width="300"> <img src="https://github.com/g-rahm-b/go_out_flutter/blob/master/images/GoOutProfile.png?raw=true" width="300">
+
 
 ## Features
 - Modern user interface.
@@ -22,8 +26,6 @@ I primarly chose Firebase - specifically Firestore - as the backend for ease of 
 [![Bugs](https://img.shields.io/static/v1?label=Bugs&message=Report&color=red&style=flat-square)](https://github.com/g-rahm-b/go_out_flutter/issues)
 
 I encourage anybody to make a pull request. For large changes, please open up a new issue so that we can discuss the changes.
-
-## Credits
 
 
 ## License
