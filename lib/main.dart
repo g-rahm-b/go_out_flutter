@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:go_out_v2/models/custom_user.dart';
-import 'package:go_out_v2/screens/wrapper.dart';
-import 'package:go_out_v2/services/auth.dart';
+import 'package:go_out/models/custom_user.dart';
+import 'package:go_out/screens/wrapper.dart';
+import 'package:go_out/services/auth.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {

@@ -26,35 +26,49 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
-android {
-    compileSdkVersion 30
+   def keystoreProperties = new Properties()
+   def keystorePropertiesFile = rootProject.file('key.properties')
+   if (keystorePropertiesFile.exists()) {
+       keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+   }
 
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
+   android {
+       compileSdkVersion 30
 
-    lintOptions {
-        disable 'InvalidPackage'
-    }
+        sourceSets {
+            main.java.srcDirs += 'src/main/kotlin'
+        }
 
-    defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.go_out_v2"
-        minSdkVersion 21
-        targetSdkVersion 30
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
-        multiDexEnabled true
-    }
+        lintOptions {
+            disable 'InvalidPackage'
+        }
 
-    buildTypes {
+        defaultConfig {
+            // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+            applicationId "com.graemebernier.go_out"
+            minSdkVersion 21
+            targetSdkVersion 30
+            versionCode flutterVersionCode.toInteger()
+            versionName flutterVersionName
+            multiDexEnabled true
+        }
+
+    signingConfigs {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
         }
     }
-}
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+
+   }
+
 
 flutter {
     source '../..'

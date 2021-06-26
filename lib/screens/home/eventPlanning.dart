@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'package:go_out_v2/models/event.dart';
-import 'package:go_out_v2/screens/eventPlanning/planEvent.dart';
-import 'package:go_out_v2/shared/loading.dart';
+import 'package:go_out/models/event.dart';
+import 'package:go_out/screens/eventPlanning/planEvent.dart';
+import 'package:go_out/shared/loading.dart';
 import 'package:location/location.dart';
 import 'dart:collection';
 import 'package:flutter/cupertino.dart';

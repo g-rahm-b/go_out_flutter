@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:go_out_v2/screens/event/event_tile.dart';
-import 'package:go_out_v2/services/eventDatabase.dart';
-import 'package:go_out_v2/models/event.dart';
-import 'package:go_out_v2/shared/loading.dart';
+import 'package:go_out/screens/event/event_tile.dart';
+import 'package:go_out/services/eventDatabase.dart';
+import 'package:go_out/models/event.dart';
+import 'package:go_out/shared/loading.dart';
 
 class EventList extends StatefulWidget {
   @override

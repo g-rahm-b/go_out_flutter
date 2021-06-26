@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_out_v2/models/custom_user.dart';
-import 'package:go_out_v2/screens/profile/other_users_profile.dart';
+import 'package:go_out/models/custom_user.dart';
+import 'package:go_out/screens/profile/other_users_profile.dart';
 
 class FriendRequestTile extends StatelessWidget {
   final CustomUser user;

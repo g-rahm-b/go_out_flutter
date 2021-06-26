@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:go_out_v2/models/custom_user.dart';
-import 'package:go_out_v2/services/profileDatabase.dart';
-import 'package:go_out_v2/shared/loading.dart';
+import 'package:go_out/models/custom_user.dart';
+import 'package:go_out/services/profileDatabase.dart';
+import 'package:go_out/shared/loading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:country_picker/country_picker.dart';
 

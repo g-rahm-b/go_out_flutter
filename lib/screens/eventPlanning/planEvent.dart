@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_out_v2/models/event.dart';
-import 'package:go_out_v2/screens/eventPlanning/planEventInviteFriends.dart';
-import 'package:go_out_v2/services/eventDatabase.dart';
-import 'package:go_out_v2/shared/constants.dart';
-import 'package:go_out_v2/models/typeSelection.dart';
+import 'package:go_out/models/event.dart';
+import 'package:go_out/screens/eventPlanning/planEventInviteFriends.dart';
+import 'package:go_out/services/eventDatabase.dart';
+import 'package:go_out/shared/constants.dart';
+import 'package:go_out/models/typeSelection.dart';
 
 // ignore: must_be_immutable
 class PlanEvent extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:go_out_v2/models/user_feedback.dart';
-import 'package:go_out_v2/services/database.dart';
+import 'package:go_out/models/user_feedback.dart';
+import 'package:go_out/services/database.dart';
 
 class SettingsForm extends StatefulWidget {
   @override

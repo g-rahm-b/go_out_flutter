@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "go_out_v2",
+            "name": "go_out",
             "request": "launch",
             "type": "dart"
         }

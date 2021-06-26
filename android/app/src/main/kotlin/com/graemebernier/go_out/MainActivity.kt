@@ -1,4 +1,4 @@
-package com.example.go_out_v2
+package com.graemebernier.go_out
 
 import io.flutter.embedding.android.FlutterActivity
 

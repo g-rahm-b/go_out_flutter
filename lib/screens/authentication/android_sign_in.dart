@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_out_v2/services/auth.dart';
-import 'package:go_out_v2/shared/constants.dart';
-import 'package:go_out_v2/shared/loading.dart';
+import 'package:go_out/services/auth.dart';
+import 'package:go_out/shared/constants.dart';
+import 'package:go_out/shared/loading.dart';
 
 class AndroidSignIn extends StatefulWidget {
   final Function toggleView;

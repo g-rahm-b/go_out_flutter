@@ -1,12 +1,12 @@
 import 'dart:collection';
-import 'package:go_out_v2/credentials.dart';
+import 'package:go_out/credentials.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_out_v2/models/event.dart';
-import 'package:go_out_v2/models/place.dart';
-import 'package:go_out_v2/models/votes.dart';
-import 'package:go_out_v2/shared/addToCalendar.dart';
-import 'package:go_out_v2/shared/shared_methods.dart';
+import 'package:go_out/models/event.dart';
+import 'package:go_out/models/place.dart';
+import 'package:go_out/models/votes.dart';
+import 'package:go_out/shared/addToCalendar.dart';
+import 'package:go_out/shared/shared_methods.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 

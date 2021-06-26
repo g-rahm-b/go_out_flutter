@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_out_v2/models/custom_user.dart';
-import 'package:go_out_v2/models/event.dart';
+import 'package:go_out/models/custom_user.dart';
+import 'package:go_out/models/event.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:go_out_v2/screens/eventPlanning/friendInviteTile.dart';
-import 'package:go_out_v2/screens/home/home.dart';
-import 'package:go_out_v2/services/database.dart';
-import 'package:go_out_v2/services/eventDatabase.dart';
-import 'package:go_out_v2/shared/loading.dart';
+import 'package:go_out/screens/eventPlanning/friendInviteTile.dart';
+import 'package:go_out/screens/home/home.dart';
+import 'package:go_out/services/database.dart';
+import 'package:go_out/services/eventDatabase.dart';
+import 'package:go_out/shared/loading.dart';
 
 // ignore: must_be_immutable
 class PlanEventInviteFriends extends StatefulWidget {

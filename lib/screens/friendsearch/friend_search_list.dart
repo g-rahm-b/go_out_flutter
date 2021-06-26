@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_out_v2/shared/CustomSearchBar.dart';
+import 'package:go_out/shared/CustomSearchBar.dart';
 import 'package:flutter_search_bar/flutter_search_bar.dart';
 
 class FriendSearchList extends StatefulWidget {
@@ -12,7 +12,6 @@ class _FriendSearchListState extends State<FriendSearchList> {
   SearchBar searchBar;
   @override
   Widget build(BuildContext context) {
-
     return CustomSearchBar();
 
     // final users = Provider.of<List<CustomUser>>(context) ??[];
@@ -51,6 +50,5 @@ class _FriendSearchListState extends State<FriendSearchList> {
     //
     //     },
     // );
-
   }
 }

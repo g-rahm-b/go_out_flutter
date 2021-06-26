@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:go_out_v2/models/custom_user.dart';
-import 'package:go_out_v2/models/event.dart';
-import 'package:go_out_v2/models/place.dart';
-import 'package:go_out_v2/models/votes.dart';
+import 'package:go_out/models/custom_user.dart';
+import 'package:go_out/models/event.dart';
+import 'package:go_out/models/place.dart';
+import 'package:go_out/models/votes.dart';
 import 'package:google_place/google_place.dart';
-import 'package:go_out_v2/credentials.dart';
-import 'package:go_out_v2/services/auth.dart';
+import 'package:go_out/credentials.dart';
+import 'package:go_out/services/auth.dart';
 
 class EventDatabase {
   Future<Event> getPlacesForEvent(Event newEvent) async {

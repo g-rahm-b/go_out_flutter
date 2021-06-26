@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:go_out_v2/screens/authentication/android_register.dart';
-import 'package:go_out_v2/screens/authentication/android_sign_in.dart';
+import 'package:go_out/screens/authentication/android_register.dart';
+import 'package:go_out/screens/authentication/android_sign_in.dart';
 import 'dart:io' show Platform;
 
 class Authenticate extends StatefulWidget {

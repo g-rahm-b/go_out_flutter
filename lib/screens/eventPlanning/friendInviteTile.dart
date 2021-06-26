@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:go_out_v2/models/custom_user.dart';
-import 'package:go_out_v2/services/profileDatabase.dart';
+import 'package:go_out/models/custom_user.dart';
+import 'package:go_out/services/profileDatabase.dart';
 import 'package:like_button/like_button.dart';
 
 // ignore: must_be_immutable
